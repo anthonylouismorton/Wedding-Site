@@ -8,7 +8,7 @@ export default class Header extends Component {
     return(
       <Navbar bg="dark" variant="dark">
         <Container>
-        <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+        <Navbar.Brand href="#home">Anthony and Kristin</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="#home">Gallery</Nav.Link>
           <Nav.Link href="#features">Venue</Nav.Link>
