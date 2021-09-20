@@ -5,7 +5,6 @@ export default class Main extends Component{
   render(){
     return (
       <Container>
-        <h1>I am the main</h1>
       </Container>
     )
   }
