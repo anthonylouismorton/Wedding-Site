@@ -1,6 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel'
 
-function EngagementPhotos() {
+function WeddingPhotos() {
     return(
       <Carousel fade>
         <Carousel.Item>
@@ -42,4 +42,4 @@ function EngagementPhotos() {
     )
   }
 
-  export default EngagementPhotos
+  export default WeddingPhotos
