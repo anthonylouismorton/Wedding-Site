@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import RSVP from './RSVP';
 import { SiteContext } from '../context/siteContext';
 import { useContext } from 'react';
+import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
   const modal = useContext(SiteContext)
@@ -25,12 +26,23 @@ function Header() {
     return(
       <><Navbar>
         <Container>
-          <Navbar.Brand href="home">Anthony and Kristin</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="Home">Home</Nav.Link>
-            <Nav.Link href="venue">Venue</Nav.Link>
+          <Nav activeKey="/Home" className="me-auto">
+            <Nav.Item>
+              <LinkContainer to="/">
+                <Nav.Link href="Home">Home</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+            <Nav.Item>
+              <LinkContainer to="Venue">
+                <Nav.Link href="Venue">Venue</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
             <Nav.Link href="registry">Registry</Nav.Link>
-            <Nav.Link href="WeddingPhotos">Wedding Photos</Nav.Link>
+            <Nav.Item>
+              <LinkContainer to="WeddingPhotos">
+                <Nav.Link href="WeddingPhotos">Wedding Photos</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
             <Nav.Link href="EngagementPhotos">Engagement Photos</Nav.Link>
             <Nav.Link onClick={handleModal}>RSVP</Nav.Link>
             {/* <Nav.Link onClick={handleModal} href="GuestBook">GuestBook</Nav.Link> */}
