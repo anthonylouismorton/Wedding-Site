@@ -5,20 +5,23 @@ import Header from './Components/Header';
 import Main from './Components/Main';
 import EngagementPhotos from './Components/EngagementPhotos';
 //import WeddingPhotos from './Components/WeddingPhotos';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Routes, Route, Switch } from "react-router-dom";
 function App(){
   return (
-    <Router>
+    <Routes>
       <Header />
       <Switch>
-        <Route exact path="/Home">
+        <Route exact path="/">
+          <Main/>
+        </Route>
+        <Route path="/Home">
           <Main/>
         </Route>
         <Route path="/WeddingPhotos">
           <EngagementPhotos/>
         </Route>
       </Switch>
-      </Router>
+      </Routes>
   );
 }
 
