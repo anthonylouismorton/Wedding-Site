@@ -1,12 +1,11 @@
-import { Component } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-export default class RSVP extends Component{
-  render(){
+function RSVP(props){
     return(
       <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered
-      show={this.props.modalOpen} onHide={this.props.handleModal}>
+      show={props.modalOpen} onHide={props.handleModal}
+      >
         <Modal.Header closeButton>
           <Modal.Title>RSVP</Modal.Title>
         </Modal.Header>
@@ -16,12 +15,12 @@ export default class RSVP extends Component{
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={this.props.handleModal}>Close</Button>
-          <Button variant="primary"onClick={this.props.handleModal}>Submit RSVP</Button>
+          <Button variant="secondary" onClick={props.handleModal}>Close</Button>
+          <Button variant="primary"onClick={props.handleModal}>Submit RSVP</Button>
         </Modal.Footer>
       </Modal>
     )
     
   }
 
-}
+  export default RSVP;
