@@ -4,11 +4,10 @@ export const SiteContext = React.createContext();
 function SiteProvider({children}){
   let [modal, setModal] = useState(false);
 
-
-const values = {
-  modal,
-  setModal
-}
+  const values = {
+    modal,
+    setModal
+  }
 
 return (
   <SiteContext.Provider value={values}>

@@ -1,3 +1,4 @@
+
 import Image from 'react-bootstrap/Image'
 import '../styling/main.css'
 

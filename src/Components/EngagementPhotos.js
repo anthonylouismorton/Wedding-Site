@@ -42,4 +42,4 @@ function EngagementPhotos() {
     )
   }
 
-  export default EngagementPhotos
+  export default EngagementPhotos;
