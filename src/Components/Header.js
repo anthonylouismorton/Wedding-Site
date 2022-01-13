@@ -3,28 +3,50 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import RSVP from './RSVP';
 import { SiteContext } from '../context/siteContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
   const modal = useContext(SiteContext)
-
-  // state = {
-  //   modalOpen: false
-  // }
-  // handleModal = () => {
-  //   this.setState((prevStat) => {
-  //     return{ modalOpen: !prevStat.modalOpen}
-  //   });
-  // }
-
   const handleModal = () => {
     console.log(!modal.modal)
     modal.setModal(!modal.modal)
   }
-  
+
+  function useKey(key) {
+    // Keep track of key state
+    const [pressed, setPressed] = useState(false)
+
+    // Does an event match the key we're watching?
+    const match = event => key.toLowerCase() === event.key.toLowerCase()
+
+    // Event handlers
+    const onDown = event => {
+        if (match(event)) setPressed(true)
+    }
+
+    const onUp = event => {
+        if (match(event)) setPressed(false)
+    }
+
+    // Bind and unbind events
+    useEffect(() => {
+        window.addEventListener("keydown", onDown)
+        window.addEventListener("keyup", onUp)
+        return () => {
+            window.removeEventListener("keydown", onDown)
+            window.removeEventListener("keyup", onUp)
+        }
+    }, [key])
+
+    return pressed
+}
+  const and = (a,b,c) => a && b && c
+  const shift = and(useKey('shift'), useKey('g'), useKey('b'))
+
     return(
-      <><Navbar>
+      <>
+      <Navbar>
         <Container>
           <Nav activeKey="/Home" className="me-auto">
             <Nav.Item>
@@ -43,8 +65,21 @@ function Header() {
                 <Nav.Link href="WeddingPhotos">Wedding Photos</Nav.Link>
               </LinkContainer>
             </Nav.Item>
-            <Nav.Link href="EngagementPhotos">Engagement Photos</Nav.Link>
-            <Nav.Link onClick={handleModal}>RSVP</Nav.Link>
+            <Nav.Item>
+              <LinkContainer to="EngagementPhotos">
+                <Nav.Link href="EngagementPhotos">Engagement Photos</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link onClick={handleModal}>RSVP</Nav.Link>
+            </Nav.Item>
+            {shift && (
+            <Nav.Item>
+              <LinkContainer to="Dashboard">
+                <Nav.Link href="Dashboard">Dashboard</Nav.Link>
+                </LinkContainer>
+            </Nav.Item>
+            )}
             {/* <Nav.Link onClick={handleModal} href="GuestBook">GuestBook</Nav.Link> */}
           </Nav>
         </Container>
