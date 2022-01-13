@@ -37,12 +37,12 @@ function Header() {
             window.removeEventListener("keydown", onDown)
             window.removeEventListener("keyup", onUp)
         }
-    }, [key])
+    })
 
     return pressed
 }
   const and = (a,b,c) => a && b && c
-  const shift = and(useKey('shift'), useKey('g'), useKey('b'))
+  const shift = and(useKey('w'), useKey('a'), useKey('p'))
 
     return(
       <>
