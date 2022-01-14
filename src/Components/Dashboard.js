@@ -72,6 +72,7 @@ function Dashboard(){
   }
 
   const [newGuest, setNewGuest] = useState(defaultGuest)
+  setNewGuest()
 
     return (
       <>
