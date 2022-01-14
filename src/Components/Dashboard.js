@@ -1,18 +1,10 @@
-// import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import AddGuest from './AddGuest'
+import AddPhoto from './AddPhoto'
 // import axios from 'axios';
-import {
-	TextField,
-	Button,
-	Paper,
-	Grid,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-	Box,
-	Typography,
-} from '@mui/material';
+
 import { makeStyles } from '@material-ui/styles';
+
 
 const useStyles = makeStyles({
 	boxContainer: {
@@ -61,54 +53,31 @@ const useStyles = makeStyles({
 	},
 });
 
+
+
 function Dashboard(){
   const classes = useStyles();
+  
+  const defaultGuest = {
+    firstName: '',
+    lastName: '',
+    sOfirstName: '',
+    sOlastName: '',
+    couple: false,
+    plusOne: false,
+    plusOneFirstName: '',
+    plusOneLastName: '',
+    rsvpCode: '',
+    rsvp: false
+  }
+
+  const [newGuest, setNewGuest] = useState(defaultGuest)
+
     return (
-<Box className={classes.boxContainer}>
-			<Paper className={classes.paperContainer}>
-				<Typography>Add Photos</Typography>
-				<Grid className={classes.form}>
-					<form>
-						<Grid className={classes.incident}>
-							<Grid item>
-								<FormControl fullWidth>
-									<InputLabel id='demo-simple-select-label'>
-										Category
-									</InputLabel>
-									<Select
-										name='incidentOffense'
-										// value={}
-										label='Incident Type'
-										// onChange={handleChange}
-									>
-										<MenuItem value={'Wedding'}>Wedding</MenuItem>
-										<MenuItem value={'Engagement'}>Engagement</MenuItem>
-									</Select>
-								</FormControl>
-							</Grid>
-						</Grid>
-						<Grid className={classes.description}>
-							<Grid item>
-								<TextField
-									name='incidentOffenseDescription'
-									// value={formValues.incidentOffenseDescription}
-									id='outlined-multiline-static'
-									label='Url'
-									multiline
-									rows={4}
-									// onChange={handleChange}
-								/>
-							</Grid>
-						</Grid>
-						<Grid item className={classes.button}>
-							<Button type='submit' color='success' variant='contained'>
-								Submit
-							</Button>
-						</Grid>
-					</form>
-				</Grid>
-			</Paper>
-		</Box>
+      <>
+        <AddPhoto classes={classes}/>
+        <AddGuest classes={classes} newGuest={newGuest}/>
+      </>
     )
   }
 

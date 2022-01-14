@@ -42,7 +42,8 @@ function Header() {
     return pressed
 }
   const and = (a,b,c) => a && b && c
-  const shift = and(useKey('w'), useKey('a'), useKey('p'))
+  console.log(process.env.REACT_APP_SECRETKEY1)
+  const shift = and(useKey(`${process.env.REACT_APP_SECRETKEY1}`), useKey(`${process.env.REACT_APP_SECRETKEY2}`), useKey(`${process.env.REACT_APP_SECRETKEY3}`))
 
     return(
       <>
