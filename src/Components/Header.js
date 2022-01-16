@@ -9,7 +9,6 @@ import { LinkContainer } from "react-router-bootstrap";
 function Header() {
   const modal = useContext(SiteContext)
   const handleModal = () => {
-    console.log(!modal.modal)
     modal.setModal(!modal.modal)
   }
 
@@ -42,7 +41,6 @@ function Header() {
     return pressed
 }
   const and = (a,b,c) => a && b && c
-  console.log(process.env.REACT_APP_SECRETKEY1)
   const shift = and(useKey(`${process.env.REACT_APP_SECRETKEY1}`), useKey(`${process.env.REACT_APP_SECRETKEY2}`), useKey(`${process.env.REACT_APP_SECRETKEY3}`))
 
     return(
