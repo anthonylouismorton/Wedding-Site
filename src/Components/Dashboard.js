@@ -61,23 +61,22 @@ function Dashboard(){
   const defaultGuest = {
     firstName: '',
     lastName: '',
-    sOfirstName: '',
-    sOlastName: '',
+    sOfirstName: null,
+    sOlastName: null,
     couple: false,
     plusOne: false,
-    plusOneFirstName: '',
-    plusOneLastName: '',
+    plusOneFirstName: null,
+    plusOneLastName: null,
     rsvpCode: '',
     rsvp: false
   }
 
   const [newGuest, setNewGuest] = useState(defaultGuest)
-  setNewGuest()
 
     return (
       <>
         <AddPhoto classes={classes}/>
-        <AddGuest classes={classes} newGuest={newGuest}/>
+        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
       </>
     )
   }
