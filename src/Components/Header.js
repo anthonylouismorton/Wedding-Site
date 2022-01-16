@@ -17,7 +17,7 @@ function Header() {
     const [pressed, setPressed] = useState(false)
 
     // Does an event match the key we're watching?
-    const match = event => key.toLowerCase() === event.key.toLowerCase()
+    const match = event => key === event.key
 
     // Event handlers
     const onDown = event => {
@@ -42,7 +42,7 @@ function Header() {
 }
   const and = (a,b,c) => a && b && c
   const shift = and(useKey(`${process.env.REACT_APP_SECRETKEY1}`), useKey(`${process.env.REACT_APP_SECRETKEY2}`), useKey(`${process.env.REACT_APP_SECRETKEY3}`))
-
+  console.log(process.env.REACT_APP_SECRETKEY1)
     return(
       <>
       <Navbar>
