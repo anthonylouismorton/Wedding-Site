@@ -71,11 +71,19 @@ function Dashboard(){
     rsvp: false
   }
 
+  const defaultPhoto = {
+    photoUrl: '',
+    caption: '',
+    tags: [],
+    category: ''
+  }
+
   const [newGuest, setNewGuest] = useState(defaultGuest)
+  const [newPhoto, setNewPhoto] = useState(defaultPhoto)
 
     return (
       <>
-        <AddPhoto classes={classes}/>
+        <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
       </>
     )

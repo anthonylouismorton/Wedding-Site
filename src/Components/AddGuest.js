@@ -70,21 +70,27 @@ function AddGuest(props){
     document.getElementById('create-invitee-form').reset();
 	};
   
-  function rsvpCodeGenerator() {
+  async function rsvpCodeGenerator() {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = 10;
+    let existingRSVPcodes = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`)
+    console.log(existingRSVPcodes)
     for ( var i = 0; i < charactersLength; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * 
       characters.length));
     }
-    props.setNewGuest({
-      ...props.newGuest,
-      rsvpCode: result
-    })
+    if(!existingRSVPcodes.data.some(x => x.rsvpCode === result)){
+      props.setNewGuest({
+        ...props.newGuest,
+        rsvpCode: result
+      })
+    }
+    else{
+      rsvpCodeGenerator()
+    }
     return result;
   }
-  console.log(props.newGuest)
   return(
     
         <Box className={props.classes.boxContainer}>

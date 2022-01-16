@@ -10,16 +10,49 @@ import {
   MenuItem,
   FormControl
 } from '@mui/material';
-
+import axios from 'axios'
 
 function AddPhoto(props){
 
+  function categorySelect(e){
+    props.setNewPhoto({
+      ...props.newPhoto,
+      category: e.target.value
+    })
+  }
+  function setUrl(e){
+    props.setNewPhoto({
+      ...props.newPhoto,
+      photoUrl: e.target.value
+    })
+  }
+  function setCaption(e){
+    props.setNewPhoto({
+      ...props.newPhoto,
+      caption: e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios.post(
+      `${process.env.REACT_APP_DATABASE}/photo`,
+      props.newPhoto
+    )
+
+		props.setNewPhoto({
+			...props.defaultPhoto,
+		})
+    document.getElementById('create-photo-form').reset();
+	};
+
+  console.log(props.newPhoto)
   return(
     <Box className={props.classes.boxContainer}>
       <Paper className={props.classes.paperContainer}>
         <Typography>Add Photos</Typography>
         <Grid className={props.classes.form}>
-          <form>
+          <form onSubmit={handleSubmit} id="create-photo-form">
             <Grid className={props.classes.incident}>
               <Grid item>
                 <FormControl fullWidth>
@@ -28,9 +61,9 @@ function AddPhoto(props){
                   </InputLabel>
                   <Select
                     //name='photoCategory'
-                    // value={'Wedding'}
+                    value={props.newPhoto.category}
                     label='photoCategory'
-                    // onChange={handleChange}
+                    onChange={categorySelect}
                   >
                     <MenuItem value={'Wedding'}>Wedding</MenuItem>
                     <MenuItem value={'Engagement'}>Engagement</MenuItem>
@@ -42,10 +75,10 @@ function AddPhoto(props){
               <Grid item>
                 <TextField
                   name='photoUrl'
-                  // value={formValues.incidentOffenseDescription}
+                  value={props.newPhoto.photoUrl}
                   id='outlined-multiline-static'
                   label='Url'
-                  // onChange={handleChange}
+                  onChange={setUrl}
                 />
               </Grid>
             </Grid>
@@ -53,10 +86,10 @@ function AddPhoto(props){
               <Grid item>
                 <TextField
                   name='caption'
-                  // value={formValues.incidentOffenseDescription}
+                  value={props.newPhoto.caption}
                   id='outlined-multiline-static'
                   label='caption'
-                  // onChange={handleChange}
+                  onChange={setCaption}
                 />
               </Grid>
             </Grid>
