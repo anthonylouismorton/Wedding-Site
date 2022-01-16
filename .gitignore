@@ -1,12 +1,23 @@
-# Created by https://www.gitignore.io/api/vim,osx,linux,node
 db
+build
 temp
-data
 .env
-*.crt
-*.key
 *.env
 package-lock.json
+aws.yml
+
+# Sequelize CLI
+config.json
+
+# sqlite memory artifacts
+memory
+
+**/docs/*
+!**/docs/config/
+!**/docs/swagger.json
+
+# ignore the webstorm ide dir
+.idea/
 
 ### Vim ###
 # swap
