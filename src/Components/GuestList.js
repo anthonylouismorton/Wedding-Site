@@ -211,8 +211,6 @@ EnhancedTableToolbar.propTypes = {
 };
 
 function GuestList(){
-  
-  const [guestList, setGuestList] = useState ([])
   const [rows, setRows] = useState([])
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
@@ -221,37 +219,37 @@ function GuestList(){
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  let getGuests = async () => {
+    let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
+    let refinedInvitees = invitees.data.map((invitee) => {
+      let rsvp;
+      let sO;
+      let plusOne;
+      if(invitee.rsvp){
+        rsvp = 'Yes'
+      }
+      else{
+        rsvp = 'No'
+      }
+      if(invitee.sOfirstName){
+        sO = `${invitee.sOfirstName} ${invitee.sOlastName}`
+      }
+      else{
+        sO = 'none'
+      }
+      if(invitee.plusOne){
+        plusOne = `${invitee.plusOneFirstName} ${invitee.plusOneLastName}`
+      }
+      else{
+        plusOne = 'none'
+      }
+      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id}
+    })
+    setRows(refinedInvitees)
+  };
+
   useEffect(() => {
-    const fetchGuests = async () => {
-      let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
-      let refinedInvitees = invitees.data.map((invitee) => {
-        let rsvp;
-        let sO;
-        let plusOne;
-        if(invitee.rsvp){
-          rsvp = 'Yes'
-        }
-        else{
-          rsvp = 'No'
-        }
-        if(invitee.sOfirstName){
-          sO = `${invitee.sOfirstName} ${invitee.sOlastName}`
-        }
-        else{
-          sO = 'none'
-        }
-        if(invitee.plusOne){
-          plusOne = `${invitee.plusOneFirstName} ${invitee.plusOneLastName}`
-        }
-        else{
-          plusOne = 'none'
-        }
-        return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id}
-      })
-      setGuestList(...guestList, refinedInvitees)
-      setRows(...guestList, refinedInvitees)
-    };
-    fetchGuests();
+    getGuests();
 
 	},[]);
  
