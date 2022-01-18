@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import { useState, useEffect} from 'react';
 import AddGuest from './AddGuest'
 import AddPhoto from './AddPhoto'
 import GuestList from './GuestList';
 import DashboardCarousel from './DashboardCarousel';
-
+import axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 
 
@@ -82,12 +82,25 @@ function Dashboard(){
   const [newGuest, setNewGuest] = useState(defaultGuest)
   const [newPhoto, setNewPhoto] = useState(defaultPhoto)
 
+  const [photos, setPhotos] = useState([])
+  //const [selectedImage, setSelectedImage] = useState({})
+  let getPhotos = async () => {
+      let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
+      
+      setPhotos(dbPhotos.data)
+    };
+
+  useEffect(() => {
+      getPhotos();
+  
+  },[]);
+
     return (
       <>
-        <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto}/>
+        <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
         <GuestList/>
-        <DashboardCarousel/>
+        <DashboardCarousel photos={photos}/>
       </>
     )
   }

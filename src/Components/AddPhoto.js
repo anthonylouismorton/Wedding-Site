@@ -43,6 +43,7 @@ function AddPhoto(props){
 		props.setNewPhoto({
 			...props.defaultPhoto,
 		})
+    props.getPhotos();
     document.getElementById('create-photo-form').reset();
 	};
 
