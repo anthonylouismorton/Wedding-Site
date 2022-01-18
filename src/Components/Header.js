@@ -42,7 +42,7 @@ function Header() {
 }
   const and = (a,b,c) => a && b && c
   const shift = and(useKey(`${process.env.REACT_APP_SECRETKEY1}`), useKey(`${process.env.REACT_APP_SECRETKEY2}`), useKey(`${process.env.REACT_APP_SECRETKEY3}`))
-  console.log(process.env.REACT_APP_SECRETKEY1)
+  
     return(
       <>
       <Navbar>

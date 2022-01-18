@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import AddGuest from './AddGuest'
 import AddPhoto from './AddPhoto'
-// import axios from 'axios';
+import GuestList from './GuestList';
+import DashboardCarousel from './DashboardCarousel';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -85,6 +86,8 @@ function Dashboard(){
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
+        <GuestList/>
+        <DashboardCarousel/>
       </>
     )
   }

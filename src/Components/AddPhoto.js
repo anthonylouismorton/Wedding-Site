@@ -46,7 +46,6 @@ function AddPhoto(props){
     document.getElementById('create-photo-form').reset();
 	};
 
-  console.log(props.newPhoto)
   return(
     <Box className={props.classes.boxContainer}>
       <Paper className={props.classes.paperContainer}>
