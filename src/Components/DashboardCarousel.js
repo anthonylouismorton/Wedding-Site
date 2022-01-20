@@ -3,7 +3,6 @@ import { Carousel } from 'react-responsive-carousel';
 
 
 function DashboardCarousel(props) {
-
     const handleCarouselClick = (e) => {
         
         // setSelectedImage({})

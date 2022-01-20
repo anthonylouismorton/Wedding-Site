@@ -23,19 +23,20 @@ import {
 } from '@mui/material';
 import{
   Delete,
-  FilterList
+  FilterList,
+  Edit
 } from '@material-ui/icons'
 import axios from 'axios'
 
-// function createData(name, sO, plusOne, rsvp, rsvpCode) {
-//   return {
-//     name,
-//     sO,
-//     plusOne,
-//     rsvp,
-//     rsvpCode,
-//   };
-// }
+function GuestList(props){
+    const [rows, setRows] = useState([])
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
+    const [selected, setSelected] = useState([]);
+    const [page, setPage] = useState(0);
+    const [dense, setDense] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    //const [selectedInvitee, setSelectedInvitee] = useState('')
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -99,6 +100,7 @@ const headCells = [
     label: 'RSVP Code',
   },
 ];
+
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
@@ -155,6 +157,8 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+
+
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
 
@@ -190,11 +194,18 @@ const EnhancedTableToolbar = (props) => {
       )}
 
       {numSelected > 0 ? (
+        <>
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <Delete />
           </IconButton>
         </Tooltip>
+        <Tooltip title="Edit">
+          <IconButton>
+            <Edit />
+          </IconButton>
+        </Tooltip>
+        </>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
@@ -210,14 +221,12 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-function GuestList(){
-  const [rows, setRows] = useState([])
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleDelete = async () => {
+    console.log(props.selectedInvitee)
+    let deleteinvitee = await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee}`)
+    console.log(deleteinvitee)
+    getGuests();
+  }
 
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
@@ -268,8 +277,8 @@ function GuestList(){
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    console.log(name)
+  const handleClick = (event, name, rsvpCode) => {
+    props.setSelectedInvitee(rsvpCode)
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -337,7 +346,7 @@ function GuestList(){
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.name, row.rsvpCode)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
