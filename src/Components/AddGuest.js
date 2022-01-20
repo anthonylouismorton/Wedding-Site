@@ -68,6 +68,8 @@ function AddGuest(props){
 			...props.defaultGuest,
 		})
     document.getElementById('create-invitee-form').reset();
+    props.getGuests();
+    
 	};
   
   async function rsvpCodeGenerator() {

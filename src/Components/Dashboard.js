@@ -81,17 +81,48 @@ function Dashboard(){
   const [newGuest, setNewGuest] = useState(defaultGuest)
   const [newPhoto, setNewPhoto] = useState(defaultPhoto)
   const [photos, setPhotos] = useState([])
-  const [selectedInvitee, setSelectedInvitee] = useState('')
+  const [selectedInvitee, setSelectedInvitee] = useState({})
+  const [rows, setRows] = useState([])
 
-  //const [selectedImage, setSelectedImage] = useState({})
+
   const getPhotos = async () => {
     let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
     
     setPhotos(dbPhotos.data)
   };
 
+  let getGuests = async () => {
+    let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
+    let refinedInvitees = invitees.data.map((invitee) => {
+      let rsvp;
+      let sO;
+      let plusOne;
+      if(invitee.rsvp){
+        rsvp = 'Yes'
+      }
+      else{
+        rsvp = 'No'
+      }
+      if(invitee.sOfirstName){
+        sO = `${invitee.sOfirstName} ${invitee.sOlastName}`
+      }
+      else{
+        sO = 'none'
+      }
+      if(invitee.plusOne){
+        plusOne = `${invitee.plusOneFirstName} ${invitee.plusOneLastName}`
+      }
+      else{
+        plusOne = 'none'
+      }
+      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id}
+    })
+    setRows(refinedInvitees)
+  };
+
   useEffect(() => {
     getPhotos();
+    getGuests();
   },[]);
 
   //photo.setPhotos(practicePhoto)
@@ -100,8 +131,8 @@ function Dashboard(){
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
-        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
+        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests}/>
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests}/>
         <DashboardCarousel photos={photos}/>
       </>
     )

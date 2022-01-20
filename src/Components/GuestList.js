@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {
   Switch,
   FormControlLabel,
@@ -29,14 +29,12 @@ import{
 import axios from 'axios'
 
 function GuestList(props){
-    const [rows, setRows] = useState([])
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    //const [selectedInvitee, setSelectedInvitee] = useState('')
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -222,45 +220,11 @@ EnhancedTableToolbar.propTypes = {
 };
 
   const handleDelete = async () => {
-    console.log(props.selectedInvitee)
-    let deleteinvitee = await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee}`)
+    console.log(props.selectedInvitee.rsvpCode)
+    let deleteinvitee = await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee.rsvpCode}`)
     console.log(deleteinvitee)
-    getGuests();
+    props.getGuests();
   }
-
-  let getGuests = async () => {
-    let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
-    let refinedInvitees = invitees.data.map((invitee) => {
-      let rsvp;
-      let sO;
-      let plusOne;
-      if(invitee.rsvp){
-        rsvp = 'Yes'
-      }
-      else{
-        rsvp = 'No'
-      }
-      if(invitee.sOfirstName){
-        sO = `${invitee.sOfirstName} ${invitee.sOlastName}`
-      }
-      else{
-        sO = 'none'
-      }
-      if(invitee.plusOne){
-        plusOne = `${invitee.plusOneFirstName} ${invitee.plusOneLastName}`
-      }
-      else{
-        plusOne = 'none'
-      }
-      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id}
-    })
-    setRows(refinedInvitees)
-  };
-
-  useEffect(() => {
-    getGuests();
-
-	},[]);
  
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -270,15 +234,17 @@ EnhancedTableToolbar.propTypes = {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
+      const newSelecteds = props.rows.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name, rsvpCode) => {
-    props.setSelectedInvitee(rsvpCode)
+  const handleClick = (event, name, inviteeInfo) => {
+    console.log(inviteeInfo)
+  
+    props.setSelectedInvitee(inviteeInfo)
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -315,7 +281,7 @@ EnhancedTableToolbar.propTypes = {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -333,11 +299,11 @@ EnhancedTableToolbar.propTypes = {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={props.rows.length}
             />
             <TableBody>
 
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(props.rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -346,7 +312,7 @@ EnhancedTableToolbar.propTypes = {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name, row.rsvpCode)}
+                      onClick={(event) => handleClick(event, row.name, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -392,7 +358,7 @@ EnhancedTableToolbar.propTypes = {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
-          count={rows.length}
+          count={props.rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
