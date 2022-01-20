@@ -1,11 +1,10 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import AddGuest from './AddGuest'
 import AddPhoto from './AddPhoto'
 import GuestList from './GuestList';
 import DashboardCarousel from './DashboardCarousel';
-import axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
-
+import axios from 'axios';
 
 const useStyles = makeStyles({
 	boxContainer: {
@@ -81,25 +80,28 @@ function Dashboard(){
 
   const [newGuest, setNewGuest] = useState(defaultGuest)
   const [newPhoto, setNewPhoto] = useState(defaultPhoto)
-
   const [photos, setPhotos] = useState([])
+  const [selectedInvitee, setSelectedInvitee] = useState('')
+
   //const [selectedImage, setSelectedImage] = useState({})
-  let getPhotos = async () => {
-      let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
-      
-      setPhotos(dbPhotos.data)
-    };
+  const getPhotos = async () => {
+    let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
+    
+    setPhotos(dbPhotos.data)
+  };
 
   useEffect(() => {
-      getPhotos();
-  
+    getPhotos();
   },[]);
+
+  //photo.setPhotos(practicePhoto)
+
 
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
-        <GuestList/>
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
         <DashboardCarousel photos={photos}/>
       </>
     )
