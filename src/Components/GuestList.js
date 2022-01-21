@@ -35,6 +35,7 @@ function GuestList(props){
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const handleOpen = () => props.setOpen(true);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -199,7 +200,7 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
         <Tooltip title="Edit">
-          <IconButton>
+          <IconButton onClick={handleOpen}>
             <Edit />
           </IconButton>
         </Tooltip>
@@ -220,9 +221,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
   const handleDelete = async () => {
-    console.log(props.selectedInvitee.rsvpCode)
-    let deleteinvitee = await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee.rsvpCode}`)
-    console.log(deleteinvitee)
+    await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee.rsvpCode}`)
     props.getGuests();
   }
  
@@ -242,9 +241,35 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const handleClick = (event, name, inviteeInfo) => {
-    console.log(inviteeInfo)
-  
-    props.setSelectedInvitee(inviteeInfo)
+    let selectedInviteeInfo = {
+      firstName: inviteeInfo.name.split(' ')[0],
+      lastName: inviteeInfo.name.split(' ')[1],
+      sOfirstName: null,
+      sOlastName: null,
+      couple: false,
+      plusOne: false,
+      plusOneFirstName: null,
+      plusOneLastName: null,
+      rsvpCode: inviteeInfo.rsvpCode,
+      rsvp: null
+    };
+    if(inviteeInfo.sO !== 'none'){
+      selectedInviteeInfo.sOfirstName = inviteeInfo.sO.split(' ')[0]
+      selectedInviteeInfo.sOlastName = inviteeInfo.sO.split(' ')[1]
+      selectedInviteeInfo.couple = true
+    }
+    if(inviteeInfo.plusOne !== 'none'){
+      selectedInviteeInfo.plusOneFirstName = inviteeInfo.plusOne.split(' ')[0]
+      selectedInviteeInfo.plusOneLastName = inviteeInfo.plusOne.split(' ')[1]
+      selectedInviteeInfo.plusOne = true
+    }
+    if(inviteeInfo.rsvp === 'No'){
+      selectedInviteeInfo.rsvp = false
+    }
+    else{
+      selectedInviteeInfo.rsvp = true
+    }
+    props.setSelectedInvitee(selectedInviteeInfo)
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
