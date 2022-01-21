@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
 	TextField,
 	Button,
@@ -11,50 +10,23 @@ import {
   FormControlLabel
 } from '@mui/material';
 import axios from 'axios';
+import {useState} from 'react'
 
 function AddGuest(props){ 
-  const [coupleChecked, setCoupleChecked] = useState(false)
-  const [pluseOneChecked, setplusOneCheck] = useState(false)
-  
+  const [coupleChecked, setCoupleChecked] = useState(false);
+  const [pluseOneChecked, setplusOneCheck] = useState(false);
   const getRSVP = (e) => {
     rsvpCodeGenerator()
   }
 
-  const setName = (e) => {
-    let name = e.target.value.split(' ');
-    props.setNewGuest({
-      ...props.newGuest,
-      firstName: name[0],
-      lastName: name[1]
-    })
-  }
-
-  const setSoName = (e) => {
-    let name = e.target.value.split(' ');
-    props.setNewGuest({
-      ...props.newGuest,
-      sOfirstName: name[0],
-      sOlastName: name[1]
-    })
-  }
-
-  const setPlusOne = (e) => {
-    let name = e.target.value.split(' ');
-    props.setNewGuest({
-      ...props.newGuest,
-      plusOneFirstName: name[0],
-      plusOneLastName: name[1]
-    })
-  }
-
   const coupleCheck = (e) => {
     setCoupleChecked(e.target.checked)
-    props.newGuest.couple = !coupleChecked
+    props.newGuest.couple = !props.coupleChecked
   }
 
   const plusOneCheck = (e) => {
     setplusOneCheck(e.target.checked)
-    props.newGuest.plusOne = !pluseOneChecked
+    props.newGuest.plusOne = !props.pluseOneChecked
   }
 
   const handleSubmit = async (e) => {
@@ -68,6 +40,8 @@ function AddGuest(props){
 			...props.defaultGuest,
 		})
     document.getElementById('create-invitee-form').reset();
+    props.getGuests();
+    
 	};
   
   async function rsvpCodeGenerator() {
@@ -105,7 +79,7 @@ function AddGuest(props){
                      //value={`${props.newGuest.firstName} ${props.newGuest.lastName}`}
                      id='outlined-multiline-static'
                      label='Name'
-                     onChange={setName}
+                     onChange={props.setName}
                    />
                  </Grid>
                  <Grid item>
@@ -123,7 +97,7 @@ function AddGuest(props){
                      // value={formValues.incidentOffenseDescription}
                      id='outlined-multiline-static'
                      label='SO name'
-                     onChange={setSoName}
+                     onChange={props.setSoName}
                    />
                  </Grid>
                </Grid>
@@ -136,7 +110,7 @@ function AddGuest(props){
                     //  value=''
                      id='outlined-multiline-static'
                      label='+1 Name'
-                     onChange={setPlusOne}
+                     onChange={props.setPlusOne}
                    />
                  </Grid>
                </Grid>

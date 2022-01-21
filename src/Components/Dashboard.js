@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AddGuest from './AddGuest'
 import AddPhoto from './AddPhoto'
 import GuestList from './GuestList';
+import EditGuest from './EditGuest';
 import DashboardCarousel from './DashboardCarousel';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
@@ -78,31 +79,106 @@ function Dashboard(){
     category: ''
   }
 
-  const [newGuest, setNewGuest] = useState(defaultGuest)
-  const [newPhoto, setNewPhoto] = useState(defaultPhoto)
-  const [photos, setPhotos] = useState([])
-  const [selectedInvitee, setSelectedInvitee] = useState('')
+  const [newGuest, setNewGuest] = useState(defaultGuest);
+  const [newPhoto, setNewPhoto] = useState(defaultPhoto);
+  const [editCoupleChecked, editSetCoupleChecked] = useState(false);
+  const [editPlusOneChecked, editSetPlusOneCheck] = useState(false);
+  const [photos, setPhotos] = useState([]);
+  const [selectedInvitee, setSelectedInvitee] = useState(defaultGuest);
+  const [rows, setRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
-  //const [selectedImage, setSelectedImage] = useState({})
   const getPhotos = async () => {
     let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
     
     setPhotos(dbPhotos.data)
   };
 
+  let getGuests = async () => {
+    let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
+    let refinedInvitees = invitees.data.map((invitee) => {
+      let rsvp;
+      let sO;
+      let plusOne;
+      if(invitee.rsvp){
+        rsvp = 'Yes'
+      }
+      else{
+        rsvp = 'No'
+      }
+      if(invitee.sOfirstName){
+        sO = `${invitee.sOfirstName} ${invitee.sOlastName}`
+      }
+      else{
+        sO = 'none'
+      }
+      if(invitee.plusOne){
+        plusOne = `${invitee.plusOneFirstName} ${invitee.plusOneLastName}`
+      }
+      else{
+        plusOne = 'none'
+      }
+      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id}
+    })
+    setRows(refinedInvitees)
+  };
+
+  const setName = (e) => {
+    let name = e.target.value.split(' ');
+    setNewGuest({
+      ...newGuest,
+      firstName: name[0],
+      lastName: name[1]
+    })
+  }
+
+  const setSoName = (e) => {
+    let name = e.target.value.split(' ');
+    setNewGuest({
+      ...newGuest,
+      sOfirstName: name[0],
+      sOlastName: name[1]
+    })
+  }
+
+  const setPlusOne = (e) => {
+    let name = e.target.value.split(' ');
+    setNewGuest({
+      ...newGuest,
+      plusOneFirstName: name[0],
+      plusOneLastName: name[1]
+    })
+  }
+
+
   useEffect(() => {
     getPhotos();
-  },[]);
-
-  //photo.setPhotos(practicePhoto)
+    getGuests();
+    console.log(selectedInvitee.couple)
+    if(selectedInvitee.couple){
+      editSetCoupleChecked(true)
+    }
+    else{
+      editSetCoupleChecked(false)
+    }
+    if(selectedInvitee.plusOne){
+      editSetPlusOneCheck(true)
+    }
+    else{
+      editSetPlusOneCheck(false)
+    }
+  },[selectedInvitee.couple, selectedInvitee.plusOne]);
+  
 
 
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
-        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest}/>
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
+        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne}/>
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen}/>
         <DashboardCarousel photos={photos}/>
+        <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
       </>
     )
   }
