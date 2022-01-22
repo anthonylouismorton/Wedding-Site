@@ -16,6 +16,7 @@ import axios from 'axios'
 
 
 function EditGuest(props){
+
   const handleSubmit = async (e) => {
     console.log('submitting')
     e.preventDefault();
@@ -27,9 +28,9 @@ function EditGuest(props){
     props.setSelectedInvitee({
       ...props.defaultGuest,
     })
-    document.getElementById('create-invitee-form').reset();
+    //document.getElementById('create-invitee-form').reset();
     // props.getGuests();
-    
+    props.handleClose()
   };
   
   const setName = (e) => {
@@ -127,12 +128,7 @@ function EditGuest(props){
                )}
                <Grid>
                  <Grid item>
-                   <TextField
-                     name='rsvpCode'
-                     defaultValue={props.selectedInvitee.rsvpCode}
-                     id='outlined-multiline-static'
-                     label='RSVP Code'
-                   />
+                 <Typography>RSVP Code: {props.selectedInvitee.rsvpCode}</Typography>
                  </Grid>
                </Grid>
                <Grid item>

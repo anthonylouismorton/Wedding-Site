@@ -155,7 +155,6 @@ function Dashboard(){
   useEffect(() => {
     getPhotos();
     getGuests();
-    console.log(selectedInvitee.couple)
     if(selectedInvitee.couple){
       editSetCoupleChecked(true)
     }
