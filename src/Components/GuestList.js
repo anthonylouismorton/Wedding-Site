@@ -272,6 +272,7 @@ EnhancedTableToolbar.propTypes = {
     props.setSelectedInvitee(selectedInviteeInfo)
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
+    
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
@@ -285,7 +286,7 @@ EnhancedTableToolbar.propTypes = {
         selected.slice(selectedIndex + 1),
       );
     }
-
+    console.log(newSelected)
     setSelected(newSelected);
   };
 
