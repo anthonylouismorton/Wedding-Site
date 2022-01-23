@@ -5,6 +5,7 @@ import Main from './Components/Main';
 import EngagementPhotos from './Components/EngagementPhotos';
 import Dashboard from './Components/Dashboard';
 import WeddingPhotos from './Components/WeddingPhotos';
+import RSVP from './Components/RSVP'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 
@@ -27,6 +28,9 @@ function App(){
         </Route>
         <Route path="/Dashboard">
           <Dashboard/>
+        </Route>
+        <Route path="/RSVP">
+          <RSVP/>
         </Route>
       </Switch>
       </Router>

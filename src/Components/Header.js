@@ -83,8 +83,6 @@ function Header() {
           </Nav>
         </Container>
       </Navbar>
-      <RSVP modalOpen={modal.modal} handleModal={handleModal}/>
-      {/* <GuestBook modalOpen={modal.modal} handleModal={handleModal}/> */}
 
       </>
     )
