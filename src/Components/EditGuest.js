@@ -28,8 +28,6 @@ function EditGuest(props){
     props.setSelectedInvitee({
       ...props.defaultGuest,
     })
-    //document.getElementById('create-invitee-form').reset();
-    // props.getGuests();
     props.handleClose()
   };
   

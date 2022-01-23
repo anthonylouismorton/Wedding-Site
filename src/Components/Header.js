@@ -42,7 +42,7 @@ function Header() {
 }
   const and = (a,b,c) => a && b && c
   const shift = and(useKey(`${process.env.REACT_APP_SECRETKEY1}`), useKey(`${process.env.REACT_APP_SECRETKEY2}`), useKey(`${process.env.REACT_APP_SECRETKEY3}`))
-  
+
     return(
       <>
       <Navbar>
@@ -69,9 +69,9 @@ function Header() {
                 <Nav.Link href="EngagementPhotos">Engagement Photos</Nav.Link>
               </LinkContainer>
             </Nav.Item>
-            <Nav.Item>
-                <Nav.Link onClick={handleModal}>RSVP</Nav.Link>
-            </Nav.Item>
+              <LinkContainer to="RSVP">
+                <Nav.Link href="RSVP">RSVP</Nav.Link>
+              </LinkContainer>
             {shift && (
             <Nav.Item>
               <LinkContainer to="Dashboard">
