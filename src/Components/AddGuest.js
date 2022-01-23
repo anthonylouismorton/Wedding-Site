@@ -76,7 +76,6 @@ function AddGuest(props){
                  <Grid item>
                    <TextField
                      name='name'
-                     //value={`${props.newGuest.firstName} ${props.newGuest.lastName}`}
                      id='outlined-multiline-static'
                      label='Name'
                      onChange={props.setName}
