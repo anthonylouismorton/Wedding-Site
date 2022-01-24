@@ -1,16 +1,13 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import RSVP from './RSVP';
-import { SiteContext } from '../context/siteContext';
-import { useContext, useEffect, useState } from 'react';
+// import { SiteContext } from '../context/siteContext';
+import { useEffect, useState } from 'react';
 import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
-  const modal = useContext(SiteContext)
-  const handleModal = () => {
-    modal.setModal(!modal.modal)
-  }
+  // const modal = useContext(SiteContext)
+
 
   function useKey(key) {
     // Keep track of key state
