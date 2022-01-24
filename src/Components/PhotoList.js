@@ -27,15 +27,16 @@ import{
   Edit
 } from '@material-ui/icons'
 import axios from 'axios'
+import '../styling/photoList.css'
 
-function GuestList(props){
+function PhotoList(props){
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const handleOpen = () => props.setOpen(true);
+    const handleOpen = () => props.setPhotoOpen(true);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -216,8 +217,8 @@ EnhancedTableToolbar.propTypes = {
 };
 
   const handleDelete = async () => {
-    await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee.rsvpCode}`)
-    props.getGuests();
+    await axios.delete(`${process.env.REACT_APP_DATABASE}/photo/${props.selectedPhoto._id}`)
+    props.getPhotos();
   }
  
   const handleRequestSort = (event, property) => {
@@ -228,49 +229,30 @@ EnhancedTableToolbar.propTypes = {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = props.rows.map((n) => n.id);
+      const newSelecteds = props.photos.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name, inviteeInfo) => {
-    let selectedInviteeInfo = {
-      firstName: inviteeInfo.name.split(' ')[0],
-      lastName: inviteeInfo.name.split(' ')[1],
-      sOfirstName: null,
-      sOlastName: null,
-      couple: false,
-      plusOne: false,
-      plusOneFirstName: null,
-      plusOneLastName: null,
-      rsvpCode: inviteeInfo.rsvpCode,
-      rsvp: null
+  const handleClick = (event, photoInfo) => {
+    console.log(photoInfo)
+    let selectedPhotoInfo = {
+      _id: photoInfo._id,
+      category: photoInfo.category,
+      caption: photoInfo.caption,
+      tags: photoInfo.tags
     };
-    if(inviteeInfo.sO !== 'none'){
-      selectedInviteeInfo.sOfirstName = inviteeInfo.sO.split(' ')[0]
-      selectedInviteeInfo.sOlastName = inviteeInfo.sO.split(' ')[1]
-      selectedInviteeInfo.couple = true
-    }
-    if(inviteeInfo.plusOne !== 'none'){
-      selectedInviteeInfo.plusOneFirstName = inviteeInfo.plusOne.split(' ')[0]
-      selectedInviteeInfo.plusOneLastName = inviteeInfo.plusOne.split(' ')[1]
-      selectedInviteeInfo.plusOne = true
-    }
-    if(inviteeInfo.rsvp === 'No'){
-      selectedInviteeInfo.rsvp = false
-    }
-    else{
-      selectedInviteeInfo.rsvp = true
-    }
-    props.setSelectedInvitee(selectedInviteeInfo)
-    const selectedIndex = selected.indexOf(name);
+    console.log(selectedPhotoInfo)
+
+    props.setSelectedPhoto(selectedPhotoInfo)
+    const selectedIndex = selected.indexOf(photoInfo._id);
     let newSelected = [];
     
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, photoInfo._id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -281,7 +263,6 @@ EnhancedTableToolbar.propTypes = {
         selected.slice(selectedIndex + 1),
       );
     }
-    console.log(newSelected)
     setSelected(newSelected);
   };
 
@@ -302,7 +283,7 @@ EnhancedTableToolbar.propTypes = {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.photos.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -320,24 +301,24 @@ EnhancedTableToolbar.propTypes = {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={props.rows.length}
+              rowCount={props.photos.length}
             />
             <TableBody>
 
-              {stableSort(props.rows, getComparator(order, orderBy))
+              {stableSort(props.photos, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row._id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name, row)}
+                      onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.id}
+                      key={row._id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -349,18 +330,12 @@ EnhancedTableToolbar.propTypes = {
                           }}
                         />
                       </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
+                      <TableCell align="center">
+                        <img id="thumbnail" src={row.photoUrl} alt ={row.photoUrl}/>
                       </TableCell>
-                      <TableCell align="right">{row.sO}</TableCell>
-                      <TableCell align="right">{row.plusOne}</TableCell>
-                      <TableCell align="right">{row.rsvp}</TableCell>
-                      <TableCell align="right">{row.rsvpCode}</TableCell>
+                      <TableCell align="center">{row.category}</TableCell>
+                      <TableCell align="center">{row.caption}</TableCell>
+                      <TableCell align="center">{row.tags}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -379,7 +354,7 @@ EnhancedTableToolbar.propTypes = {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
-          count={props.rows.length}
+          count={props.photos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -395,4 +370,4 @@ EnhancedTableToolbar.propTypes = {
 
 }
 
-export default GuestList;
+export default PhotoList;

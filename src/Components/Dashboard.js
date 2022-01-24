@@ -3,7 +3,7 @@ import AddGuest from './AddGuest'
 import AddPhoto from './AddPhoto'
 import GuestList from './GuestList';
 import EditGuest from './EditGuest';
-import PhotoList from './photoList'
+import PhotoList from './PhotoList'
 import DashboardCarousel from './DashboardCarousel';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
@@ -86,8 +86,10 @@ function Dashboard(){
   const [editPlusOneChecked, editSetPlusOneCheck] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [selectedInvitee, setSelectedInvitee] = useState(defaultGuest);
+  const [selectedPhoto, setSelectedPhoto] = useState(defaultPhoto)
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
+  const [photoOpen, setPhotoOpen] = useState(false)
   const handleClose = () => setOpen(false);
 
   const getPhotos = async () => {
@@ -170,14 +172,14 @@ function Dashboard(){
     }
   },[selectedInvitee.couple, selectedInvitee.plusOne]);
   
-
+  console.log(photoOpen)
 
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne}/>
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} photos={photos} getGuests={getGuests} setOpen={setOpen}/>
-        <PhotoList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen}/>
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen}/>
+        <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen}/>
         <DashboardCarousel photos={photos}/>
         <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
       </>
