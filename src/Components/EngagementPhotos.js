@@ -20,7 +20,7 @@ function EngagementPhotos() {
       <Carousel fade>
         {photos.map((photo) => {
           return(
-        <Carousel.Item>
+        <Carousel.Item key={photo._id}>
           <img
             className="d-block w-100"
             src={photo.photoUrl}

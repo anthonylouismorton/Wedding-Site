@@ -1,5 +1,5 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel } from 'react-bootstrap'
 
 
 function DashboardCarousel(props) {
@@ -10,16 +10,22 @@ function DashboardCarousel(props) {
         return (
             <div>
                 <h2>Photos</h2>
-                <Carousel autoPlay interval="5000" transitionTime="500">
+                <Carousel fade>
                     {props.photos.map((photo) => {
-                        return(
-                            <div id={photo._id} key={photo._id} onClick={handleCarouselClick}>
-                                <img alt={`${photo._id}`} src={`${photo.photoUrl}`} />
-                                <p className="legend">{photo.caption}</p>
-                            </div>
-                        )
+                    return(
+                    <Carousel.Item key={photo._id} onClick={handleCarouselClick}>
+                    <img
+                        className="d-block w-100"
+                        src={photo.photoUrl}
+                        alt={photo.caption}
+                    />
+                    <Carousel.Caption>
+                    <p className="legend">{photo.caption}</p>
+                    </Carousel.Caption>
+                    </Carousel.Item>
+                    )
                     })}
-                </Carousel>
+            </Carousel>
             </div>
         );
 }
