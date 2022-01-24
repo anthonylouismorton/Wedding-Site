@@ -3,6 +3,7 @@ import AddGuest from './AddGuest'
 import AddPhoto from './AddPhoto'
 import GuestList from './GuestList';
 import EditGuest from './EditGuest';
+import PhotoList from './photoList'
 import DashboardCarousel from './DashboardCarousel';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
@@ -175,7 +176,8 @@ function Dashboard(){
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne}/>
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen}/>
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} photos={photos} getGuests={getGuests} setOpen={setOpen}/>
+        <PhotoList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen}/>
         <DashboardCarousel photos={photos}/>
         <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
       </>
