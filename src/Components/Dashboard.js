@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import AddGuest from './AddGuest'
-import AddPhoto from './AddPhoto'
+import AddGuest from './AddGuest';
+import AddPhoto from './AddPhoto';
 import GuestList from './GuestList';
 import EditGuest from './EditGuest';
-import PhotoList from './PhotoList'
+import PhotoList from './PhotoList';
+import EditPhoto from './EditPhoto';
 import DashboardCarousel from './DashboardCarousel';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
@@ -182,6 +183,7 @@ function Dashboard(){
         <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen}/>
         <DashboardCarousel photos={photos}/>
         <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
+        <EditPhoto photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto}/>
       </>
     )
   }
