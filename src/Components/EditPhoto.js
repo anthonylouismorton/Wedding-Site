@@ -1,5 +1,10 @@
-import {Button, Modal, Box, Typography, Paper, Grid, Checkbox, TextField, FormControlLabel, FormGroup} from '@mui/material'
+import {Button, Modal, Box, Typography, Paper, Grid, Checkbox, TextField, FormControlLabel, FormGroup, List, ListItem, IconButton, ListItemAvatar, ListItemText} from '@mui/material'
+import{
+  Delete,
+} from '@material-ui/icons'
+import { useState, cloneElement } from 'react';
 import axios from 'axios'
+// import TagList from './TagList'
 // import { useState } from 'react';
 
 // const style = {
@@ -14,8 +19,11 @@ import axios from 'axios'
 //   p: 4,
 // };
 
-
 function EditPhoto(props){
+
+  const [weddingChecked, setWeddingChecked] = useState(false)
+  const [engagementChecked, setEngagementChecked] = useState(false)
+  const [inputValue, setInputValue] = useState('')
 
   const handleSubmit = async (e) => {
     console.log('submitting')
@@ -39,12 +47,46 @@ function EditPhoto(props){
   }
 
   const setTags = (e) => {
-    props.setSelectedPhoto({
-      ...props.selectedPhoto,
-      tags: e.target.value,
-    })
+    e.preventDefault()
+    let tags = e.target.value
+    setInputValue(tags)
   }
 
+  const addTags = (e) => {
+    props.setSelectedPhoto({
+    ...props.selectedPhoto,
+    tags: [...props.selectedPhoto.tags, ...inputValue.split(' ')]
+    })
+    setInputValue('')
+
+  }
+
+  const handleWeddingCheck = (e) => {
+    if(!weddingChecked){
+      setWeddingChecked(true)
+      props.setSelectedPhoto({...props.selectedPhoto,
+      category: "Wedding"
+    })
+      setEngagementChecked(false)
+    }
+    else{
+      setWeddingChecked(false)
+    }
+    
+  }
+  const handleEngageCheck = (e) => {
+
+    if(!engagementChecked){
+      setEngagementChecked(true)
+      props.setSelectedPhoto({...props.selectedPhoto,
+        category: "Engagement"
+      })
+      setWeddingChecked(false)
+    }
+    else{
+      setEngagementChecked(false)
+    }
+  }
   return(
     <>
     <Modal
@@ -64,22 +106,32 @@ function EditPhoto(props){
                      name='caption'
                      defaultValue={`${props.selectedPhoto.caption} `}
                      id='outlined-multiline-static'
-                     label={props.selectedPhoto.caption}
+                     label='Caption'
                      onChange={setCaption}
                    />
                  </Grid>
                </Grid>
+               <Typography>Tags</Typography>
                <Grid>
                  <Grid item>
                    <TextField
                      name='tags'
-                     defaultValue={`${props.selectedPhoto.tags} `}
                      id='outlined-multiline-static'
-                     label={props.selectedPhoto.tags}
+                     label='Add Tags (seperate by spaces)'
+                     value={inputValue}
                      onChange={setTags}
                    />
+                   <Button type='button' color='success' variant='contained' onClick={addTags}>
+                     Add
+                   </Button>
                  </Grid>
                </Grid>
+               <Grid item>
+                 <FormGroup>
+                  <FormControlLabel control={<Checkbox/>} label="Wedding" checked={weddingChecked} onChange={handleWeddingCheck}/>
+                  <FormControlLabel control={<Checkbox/>} label="Engagement" checked={engagementChecked} onChange={handleEngageCheck} />
+                </FormGroup>
+                 </Grid>
                <Grid item>
                  <Button type='submit' color='success' variant='contained'>
                    Submit
@@ -87,6 +139,33 @@ function EditPhoto(props){
                </Grid>
              </form>
            </Grid>
+         {/* <TagList/> */}
+            <Grid item xs={12} md={6}>
+              <Typography 
+              sx={{ mt: 4, mb: 2 }} variant="h6" component="div"
+              >
+                Tags
+              </Typography>
+                <List>
+                  {props.selectedPhoto.tags.map((tag) =>{
+                    return(
+                  <ListItem
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="delete">
+                        <Delete/>
+                      </IconButton>
+                    }
+                  >
+                    <ListItemAvatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={tag}
+                    />
+                  </ListItem>
+                    )
+                  })}
+                </List>
+            </Grid>
          </Paper>
        </Box>
     </Modal>
