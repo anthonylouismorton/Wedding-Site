@@ -92,6 +92,7 @@ function Dashboard(){
   const [open, setOpen] = useState(false);
   const [photoOpen, setPhotoOpen] = useState(false)
   const handleClose = () => setOpen(false);
+  const handleEditClose = () => setPhotoOpen(false)
 
   const getPhotos = async () => {
     let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
@@ -181,7 +182,7 @@ function Dashboard(){
         <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen}/>
         <DashboardCarousel photos={photos}/>
         <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
-        <EditPhoto photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto}/>
+        <EditPhoto photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} handleClose={handleEditClose}/>
       </>
     )
   }
