@@ -18,7 +18,6 @@ import axios from 'axios'
 function EditGuest(props){
 
   const handleSubmit = async (e) => {
-    console.log('submitting')
     e.preventDefault();
     await axios.put(
       `${process.env.REACT_APP_DATABASE}/invitee`,

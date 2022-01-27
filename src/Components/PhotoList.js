@@ -32,7 +32,7 @@ import '../styling/photoList.css'
 function PhotoList(props){
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
-    const [selected, setSelected] = useState([]);
+    // const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -188,7 +188,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       )}
 
-      {numSelected > 0 ? (
+      {numSelected === 1 ? 
         <>
         <Tooltip title="Delete">
           <IconButton onClick={handleDelete}>
@@ -201,13 +201,19 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
         </>
-      ) : (
+      : numSelected > 1 ?
+        <Tooltip title="Delete">
+          <IconButton onClick={handleDelete}>
+            <Delete />
+          </IconButton>
+        </Tooltip>
+       : 
         <Tooltip title="Filter list">
           <IconButton>
             <FilterList />
           </IconButton>
         </Tooltip>
-      )}
+      }
     </Toolbar>
   );
 };
@@ -217,7 +223,9 @@ EnhancedTableToolbar.propTypes = {
 };
 
   const handleDelete = async () => {
-    await axios.delete(`${process.env.REACT_APP_DATABASE}/photo/${props.selectedPhoto._id}`)
+    const requests = props.selected.map((photo) => axios.delete(`${process.env.REACT_APP_DATABASE}/photo/${photo}`))
+    await Promise.all(requests)
+    props.setSelected([])
     props.getPhotos();
   }
  
@@ -229,41 +237,39 @@ EnhancedTableToolbar.propTypes = {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = props.photos.map((n) => n.id);
-      setSelected(newSelecteds);
+      const newSelecteds = props.photos.map((n) => n._id);
+      props.setSelected(newSelecteds);
       return;
     }
-    setSelected([]);
+    props.setSelected([]);
   };
 
   const handleClick = (event, photoInfo) => {
-    console.log(photoInfo)
     let selectedPhotoInfo = {
       _id: photoInfo._id,
       category: photoInfo.category,
       caption: photoInfo.caption,
       tags: photoInfo.tags
     };
-    console.log(selectedPhotoInfo)
 
     props.setSelectedPhoto(selectedPhotoInfo)
-    const selectedIndex = selected.indexOf(photoInfo._id);
+    const selectedIndex = props.selected.indexOf(photoInfo._id);
     let newSelected = [];
     
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, photoInfo._id);
+      newSelected = newSelected.concat(props.selected, photoInfo._id);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(props.selected.slice(1));
+    } else if (selectedIndex === props.selected.length - 1) {
+      newSelected = newSelected.concat(props.selected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        props.selected.slice(0, selectedIndex),
+        props.selected.slice(selectedIndex + 1),
       );
     }
-    setSelected(newSelected);
+    props.setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -279,16 +285,16 @@ EnhancedTableToolbar.propTypes = {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => props.selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.photos.length) : 0;
-
+  console.log(props.selected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={props.selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -296,7 +302,7 @@ EnhancedTableToolbar.propTypes = {
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={props.selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
