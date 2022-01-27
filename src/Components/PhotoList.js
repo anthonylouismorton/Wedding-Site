@@ -335,7 +335,7 @@ EnhancedTableToolbar.propTypes = {
                       </TableCell>
                       <TableCell align="center">{row.category}</TableCell>
                       <TableCell align="center">{row.caption}</TableCell>
-                      <TableCell align="center">{row.tags}</TableCell>
+                      <TableCell align="center">{row.tags.join(', ')}</TableCell>
                     </TableRow>
                   );
                 })}
