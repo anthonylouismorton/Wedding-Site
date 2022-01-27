@@ -35,7 +35,6 @@ function AddPhoto(props){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(props.newPhoto)
     await axios.post(
       `${process.env.REACT_APP_DATABASE}/photo`,
       props.newPhoto

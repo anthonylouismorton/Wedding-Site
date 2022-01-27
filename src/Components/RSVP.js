@@ -58,8 +58,6 @@ function RSVP(props){
       plusOneLastName: name[1]
     })
   }
-
-  console.log(inviteeRSVP)
     return(
       <Box>
         <Paper>

@@ -240,7 +240,8 @@ EnhancedTableToolbar.propTypes = {
     setSelected([]);
   };
 
-  const handleClick = (event, name, inviteeInfo) => {
+  const handleClick = (event, inviteeInfo) => {
+    console.log(inviteeInfo)
     let selectedInviteeInfo = {
       firstName: inviteeInfo.name.split(' ')[0],
       lastName: inviteeInfo.name.split(' ')[1],
@@ -270,12 +271,13 @@ EnhancedTableToolbar.propTypes = {
       selectedInviteeInfo.rsvp = true
     }
     props.setSelectedInvitee(selectedInviteeInfo)
-    const selectedIndex = selected.indexOf(name);
+    const selectedIndex = selected.indexOf(inviteeInfo.id);
+    console.log(selectedIndex)
     let newSelected = [];
     
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, inviteeInfo.id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -286,7 +288,6 @@ EnhancedTableToolbar.propTypes = {
         selected.slice(selectedIndex + 1),
       );
     }
-    console.log(newSelected)
     setSelected(newSelected);
   };
 
@@ -308,7 +309,7 @@ EnhancedTableToolbar.propTypes = {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
-
+  console.log(selected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -332,13 +333,13 @@ EnhancedTableToolbar.propTypes = {
               {stableSort(props.rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name, row)}
+                      onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

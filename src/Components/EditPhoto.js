@@ -30,12 +30,21 @@ function EditPhoto(props){
       `${process.env.REACT_APP_DATABASE}/photo`,
       props.selectedPhoto
     )
-  
-    // props.setSelectedPhoto({
-    //   ...props.defaultPhoto,
-    // })
+    props.setSelected([])
+    setWeddingChecked(false)
+    setEngagementChecked(false)
+    props.setSelectedPhoto(props.defaultPhoto)
+    props.getPhotos()
     props.handleClose()
   };
+
+  const handleCancel = () => {
+    props.handleClose()
+    setWeddingChecked(false)
+    setEngagementChecked(false)
+    props.setSelected([])
+    props.setSelectedPhoto(props.defaultPhoto)
+  }
   
   const setCaption = (e) => {
     props.setSelectedPhoto({
@@ -98,20 +107,22 @@ function EditPhoto(props){
     })
   }
   useEffect(() => {
-    console.log(props.selectedPhoto.category)
+    console.log(props.selectedPhoto)
     if(props.selectedPhoto.category === "Wedding"){
+      console.log('in the if')
       setWeddingChecked(true)
     }
     if(props.selectedPhoto.category === "Engagement"){
+      console.log('in the other if')
       setEngagementChecked(true)
     }
   
-  },[props.selectedPhoto.category]);
+  },[props.selectedPhoto]);
   return(
     <>
     <Modal
       open={props.photoOpen}
-      onClose={props.handleClose}
+      // onClose={props.handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -155,6 +166,9 @@ function EditPhoto(props){
                <Grid item>
                  <Button type='submit' color='success' variant='contained'>
                    Submit
+                 </Button>
+                 <Button onClick={handleCancel} type='button' color='warning' variant='contained'>
+                   Cancel
                  </Button>
                </Grid>
              </form>

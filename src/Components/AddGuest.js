@@ -49,7 +49,6 @@ function AddGuest(props){
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = 10;
     let existingRSVPcodes = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`)
-    console.log(existingRSVPcodes)
     for ( var i = 0; i < charactersLength; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * 
       characters.length));
