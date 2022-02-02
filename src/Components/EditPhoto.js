@@ -114,7 +114,6 @@ function EditPhoto(props){
     }
   
   },[props.selectedPhoto]);
-  console.log(props.selectedPhoto.caption)
 
   return(
     <>
