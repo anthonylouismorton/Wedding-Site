@@ -36,7 +36,12 @@ function PhotoList(props){
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const handleOpen = () => props.setPhotoOpen(true);
+    
+const handleOpen = async () => { 
+  props.setPhotoOpen(true)
+  let photo = await axios.get(`${process.env.REACT_APP_DATABASE}/photo/${props.selected[0]}`)
+  props.setSelectedPhoto(photo.data)
+};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -245,18 +250,17 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const handleClick = (event, photoInfo) => {
-    let selectedPhotoInfo = {
-      _id: photoInfo._id,
-      category: photoInfo.category,
-      caption: photoInfo.caption,
-      tags: photoInfo.tags
-    };
+    // let selectedPhotoInfo = {
+    //   _id: photoInfo._id,
+    //   category: photoInfo.category,
+    //   caption: photoInfo.caption,
+    //   tags: photoInfo.tags
+    // };
 
-    props.setSelectedPhoto(selectedPhotoInfo)
+    // props.setSelectedPhoto(selectedPhotoInfo)
     const selectedIndex = props.selected.indexOf(photoInfo._id);
     let newSelected = [];
     
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(props.selected, photoInfo._id);
     } else if (selectedIndex === 0) {
@@ -291,6 +295,7 @@ EnhancedTableToolbar.propTypes = {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.photos.length) : 0;
     
+  // console.log(props.selected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>

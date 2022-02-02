@@ -104,7 +104,6 @@ function Dashboard(){
 
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
-    console.log(invitees.data)
     let refinedInvitees = invitees.data.map((invitee) => {
       let rsvp;
       let sO;
@@ -131,7 +130,6 @@ function Dashboard(){
     })
     setRows(refinedInvitees)
   };
-  console.log(rows)
   const setName = (e) => {
     let name = e.target.value.split(' ');
     setNewGuest({
@@ -161,7 +159,6 @@ function Dashboard(){
 
 
   useEffect(() => {
-    console.log(selectedInvitee)
     getPhotos();
     getGuests();
     if(selectedInvitee.couple){

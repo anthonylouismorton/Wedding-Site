@@ -79,7 +79,7 @@ function EditPhoto(props){
     else{
       setWeddingChecked(false)
     }
-    
+
   }
   const handleEngageCheck = (e) => {
     
@@ -98,7 +98,6 @@ function EditPhoto(props){
   const handleDelete = (tag) => {
     for(let i = 0; i < props.selectedPhoto.tags.length; i++){
       if(tag === props.selectedPhoto.tags[i]){
-        console.log('in the if')
         props.selectedPhoto.tags.splice(i, 1)
       }
     }
@@ -107,25 +106,24 @@ function EditPhoto(props){
     })
   }
   useEffect(() => {
-    console.log(props.selectedPhoto)
     if(props.selectedPhoto.category === "Wedding"){
-      console.log('in the if')
       setWeddingChecked(true)
     }
     if(props.selectedPhoto.category === "Engagement"){
-      console.log('in the other if')
       setEngagementChecked(true)
     }
   
   },[props.selectedPhoto]);
+  console.log(props.selectedPhoto.caption)
+
   return(
     <>
     <Modal
       open={props.photoOpen}
-      // onClose={props.handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
+      
       <Box>
          <Paper>
            <Typography>Edit Photo</Typography>
@@ -135,7 +133,7 @@ function EditPhoto(props){
                  <Grid item>
                    <TextField
                      name='caption'
-                     defaultValue={`${props.selectedPhoto.caption} `}
+                     value={props.selectedPhoto.caption}
                      id='outlined-multiline-static'
                      label='Caption'
                      onChange={setCaption}
