@@ -26,7 +26,6 @@ function RSVP(props){
       `${process.env.REACT_APP_DATABASE}/invitee`,
       inviteeRSVP
     )
-    console.log(response)
     setInviteeRSVP({
       defaultGuest,
     })
