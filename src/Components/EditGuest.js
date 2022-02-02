@@ -19,16 +19,33 @@ function EditGuest(props){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+ 
+    if(props.editCoupleChecked === false){
+      props.selectedInvitee.sOfirstName = null;
+      props.selectedInvitee.sOlastName = null;
+    }
+    if(props.editPlusOneChecked === false){
+      props.selectedInvitee.plusOneFirstName = null;
+      props.selectedInvitee.plusOneLastName = null;
+    }
     await axios.put(
       `${process.env.REACT_APP_DATABASE}/invitee`,
       props.selectedInvitee
     )
-  
+    props.setGuestSelected([])
     props.setSelectedInvitee({
       ...props.defaultGuest,
     })
     props.handleClose()
   };
+
+  const handleCancel = () => {
+    props.handleClose()
+    props.setGuestSelected([])
+    props.setSelectedInvitee({
+      ...props.defaultGuest,
+    })
+  }
   
   const setName = (e) => {
     let name = e.target.value.split(' ');
@@ -59,19 +76,19 @@ function EditGuest(props){
 
   const coupleCheck = (e) => {
     props.editSetCoupleChecked(e.target.checked)
-    props.selectedInvitee.couple = !props.coupleChecked
+    props.selectedInvitee.couple = !props.editCoupleChecked
   }
 
   const plusOneCheck = (e) => {
     props.editSetPlusOneCheck(e.target.checked)
-    props.selectedInvitee.plusOne = !props.pluseOneChecked
+    props.selectedInvitee.plusOne = !props.editPlusOneChecked
   }
 
   return(
     <>
     <Modal
       open={props.open}
-      onClose={props.handleClose}
+      //onClose={props.handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -131,6 +148,9 @@ function EditGuest(props){
                <Grid item>
                  <Button type='submit' color='success' variant='contained'>
                    Submit
+                 </Button>
+                 <Button onClick={handleCancel} type='button' color='warning' variant='contained'>
+                   Cancel
                  </Button>
                </Grid>
              </form>

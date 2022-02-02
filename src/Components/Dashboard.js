@@ -92,6 +92,7 @@ function Dashboard(){
   const [open, setOpen] = useState(false);
   const [photoOpen, setPhotoOpen] = useState(false)
   const [selected, setSelected] = useState([]);
+  const [guestSelected, setGuestSelected] = useState([])
   const handleClose = () => setOpen(false);
   const handleEditClose = () => setPhotoOpen(false)
 
@@ -103,6 +104,7 @@ function Dashboard(){
 
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
+    console.log(invitees.data)
     let refinedInvitees = invitees.data.map((invitee) => {
       let rsvp;
       let sO;
@@ -129,7 +131,7 @@ function Dashboard(){
     })
     setRows(refinedInvitees)
   };
-
+  console.log(rows)
   const setName = (e) => {
     let name = e.target.value.split(' ');
     setNewGuest({
@@ -159,6 +161,7 @@ function Dashboard(){
 
 
   useEffect(() => {
+    console.log(selectedInvitee)
     getPhotos();
     getGuests();
     if(selectedInvitee.couple){
@@ -174,14 +177,15 @@ function Dashboard(){
       editSetPlusOneCheck(false)
     }
   },[selectedInvitee.couple, selectedInvitee.plusOne]);
+  console.log(selected)
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne}/>
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen}/>
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
         <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen} selected={selected} setSelected={setSelected}/>
         <DashboardCarousel photos={photos}/>
-        <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee}/>
+        <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
         <EditPhoto photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} handleClose={handleEditClose} selected={selected} setSelected={setSelected} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
       </>
     )
