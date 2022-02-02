@@ -101,7 +101,7 @@ function EditGuest(props){
                  <Grid item>
                    <TextField
                      name='name'
-                     defaultValue={`${props.selectedInvitee.firstName} ${props.selectedInvitee.lastName} `}
+                     value={`${props.selectedInvitee.firstName} ${props.selectedInvitee.lastName} `}
                      id='outlined-multiline-static'
                      label={props.selectedInvitee.name}
                      onChange={setName}

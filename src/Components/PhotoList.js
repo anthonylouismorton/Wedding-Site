@@ -32,7 +32,6 @@ import '../styling/photoList.css'
 function PhotoList(props){
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
-    // const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -250,14 +249,6 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const handleClick = (event, photoInfo) => {
-    // let selectedPhotoInfo = {
-    //   _id: photoInfo._id,
-    //   category: photoInfo.category,
-    //   caption: photoInfo.caption,
-    //   tags: photoInfo.tags
-    // };
-
-    // props.setSelectedPhoto(selectedPhotoInfo)
     const selectedIndex = props.selected.indexOf(photoInfo._id);
     let newSelected = [];
     
@@ -295,7 +286,6 @@ EnhancedTableToolbar.propTypes = {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.photos.length) : 0;
     
-  // console.log(props.selected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>

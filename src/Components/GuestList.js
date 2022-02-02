@@ -31,11 +31,15 @@ import axios from 'axios'
 function GuestList(props){
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
-    //const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const handleOpen = () => props.setOpen(true);
+
+const handleOpen = async () => {
+  props.setOpen(true);
+  let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0]}`)
+  props.setSelectedInvitee(guest.data)
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -247,36 +251,35 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const handleClick = (event, inviteeInfo) => {
-    console.log(inviteeInfo)
-    let selectedInviteeInfo = {
-      firstName: inviteeInfo.name.split(' ')[0],
-      lastName: inviteeInfo.name.split(' ')[1],
-      sOfirstName: null,
-      sOlastName: null,
-      couple: false,
-      plusOne: false,
-      plusOneFirstName: null,
-      plusOneLastName: null,
-      rsvpCode: inviteeInfo.rsvpCode,
-      rsvp: null
-    };
-    if(inviteeInfo.sO !== 'none'){
-      selectedInviteeInfo.sOfirstName = inviteeInfo.sO.split(' ')[0]
-      selectedInviteeInfo.sOlastName = inviteeInfo.sO.split(' ')[1]
-      selectedInviteeInfo.couple = true
-    }
-    if(inviteeInfo.plusOne !== 'none'){
-      selectedInviteeInfo.plusOneFirstName = inviteeInfo.plusOne.split(' ')[0]
-      selectedInviteeInfo.plusOneLastName = inviteeInfo.plusOne.split(' ')[1]
-      selectedInviteeInfo.plusOne = true
-    }
-    if(inviteeInfo.rsvp === 'No'){
-      selectedInviteeInfo.rsvp = false
-    }
-    else{
-      selectedInviteeInfo.rsvp = true
-    }
-    props.setSelectedInvitee(selectedInviteeInfo)
+    // let selectedInviteeInfo = {
+    //   firstName: inviteeInfo.name.split(' ')[0],
+    //   lastName: inviteeInfo.name.split(' ')[1],
+    //   sOfirstName: null,
+    //   sOlastName: null,
+    //   couple: false,
+    //   plusOne: false,
+    //   plusOneFirstName: null,
+    //   plusOneLastName: null,
+    //   rsvpCode: inviteeInfo.rsvpCode,
+    //   rsvp: null
+    // };
+    // if(inviteeInfo.sO !== 'none'){
+    //   selectedInviteeInfo.sOfirstName = inviteeInfo.sO.split(' ')[0]
+    //   selectedInviteeInfo.sOlastName = inviteeInfo.sO.split(' ')[1]
+    //   selectedInviteeInfo.couple = true
+    // }
+    // if(inviteeInfo.plusOne !== 'none'){
+    //   selectedInviteeInfo.plusOneFirstName = inviteeInfo.plusOne.split(' ')[0]
+    //   selectedInviteeInfo.plusOneLastName = inviteeInfo.plusOne.split(' ')[1]
+    //   selectedInviteeInfo.plusOne = true
+    // }
+    // if(inviteeInfo.rsvp === 'No'){
+    //   selectedInviteeInfo.rsvp = false
+    // }
+    // else{
+    //   selectedInviteeInfo.rsvp = true
+    // }
+    // props.setSelectedInvitee(selectedInviteeInfo)
     const selectedIndex = props.guestSelected.indexOf(inviteeInfo.id);
     let newSelected = [];
     
@@ -314,6 +317,7 @@ EnhancedTableToolbar.propTypes = {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
+    console.log(props.guestSelected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
