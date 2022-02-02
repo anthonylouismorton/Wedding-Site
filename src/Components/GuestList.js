@@ -31,7 +31,7 @@ import axios from 'axios'
 function GuestList(props){
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
-    const [selected, setSelected] = useState([]);
+    //const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -192,7 +192,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       )}
 
-      {numSelected > 0 ? (
+      {numSelected === 1 ? 
         <>
         <Tooltip title="Delete">
           <IconButton onClick={handleDelete}>
@@ -205,13 +205,19 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
         </>
-      ) : (
+        : numSelected > 1 ?
+          <Tooltip title="Delete">
+            <IconButton onClick={handleDelete}>
+              <Delete />
+            </IconButton>
+          </Tooltip>
+        : 
         <Tooltip title="Filter list">
           <IconButton>
             <FilterList />
           </IconButton>
         </Tooltip>
-      )}
+      }
     </Toolbar>
   );
 };
@@ -234,10 +240,10 @@ EnhancedTableToolbar.propTypes = {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = props.rows.map((n) => n.id);
-      setSelected(newSelecteds);
+      props.setGuestSelected(newSelecteds);
       return;
     }
-    setSelected([]);
+    props.setGuestSelected([]);
   };
 
   const handleClick = (event, inviteeInfo) => {
@@ -271,24 +277,23 @@ EnhancedTableToolbar.propTypes = {
       selectedInviteeInfo.rsvp = true
     }
     props.setSelectedInvitee(selectedInviteeInfo)
-    const selectedIndex = selected.indexOf(inviteeInfo.id);
-    console.log(selectedIndex)
+    const selectedIndex = props.guestSelected.indexOf(inviteeInfo.id);
     let newSelected = [];
     
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, inviteeInfo.id);
+      newSelected = newSelected.concat(props.guestSelected, inviteeInfo.id);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(props.guestSelected.slice(1));
+    } else if (selectedIndex === props.guestSelected.length - 1) {
+      newSelected = newSelected.concat(props.guestSelected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        props.guestSelected.slice(0, selectedIndex),
+        props.guestSelected.slice(selectedIndex + 1),
       );
     }
-    setSelected(newSelected);
+    props.setGuestSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -304,16 +309,15 @@ EnhancedTableToolbar.propTypes = {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => props.guestSelected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
-  console.log(selected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={props.guestSelected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -321,7 +325,7 @@ EnhancedTableToolbar.propTypes = {
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={props.guestSelected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
