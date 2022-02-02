@@ -21,9 +21,7 @@ function RSVP(props){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    let response = await axios.put(
-      `${process.env.REACT_APP_DATABASE}/invitee`,
+    await axios.put(`${process.env.REACT_APP_DATABASE}/invitee`,
       inviteeRSVP
     )
     setInviteeRSVP({
