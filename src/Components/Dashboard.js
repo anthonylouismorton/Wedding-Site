@@ -71,7 +71,8 @@ function Dashboard(){
     plusOneFirstName: null,
     plusOneLastName: null,
     rsvpCode: '',
-    rsvp: false
+    rsvp: false,
+    rsvpSend: false
   }
 
   const defaultPhoto = {
@@ -108,6 +109,7 @@ function Dashboard(){
       let rsvp;
       let sO;
       let plusOne;
+      let rsvpSend;
       if(invitee.rsvp){
         rsvp = 'Yes'
       }
@@ -126,7 +128,13 @@ function Dashboard(){
       else{
         plusOne = 'none'
       }
-      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id}
+      if(invitee.rsvpSend){
+        rsvpSend = 'Yes'
+      }
+      else{
+        rsvpSend ='No'
+      }
+      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id, rsvpSend: rsvpSend}
     })
     setRows(refinedInvitees)
   };
