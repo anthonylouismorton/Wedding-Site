@@ -19,7 +19,8 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
+  Button
 } from '@mui/material';
 import{
   Delete,
@@ -40,6 +41,13 @@ const handleOpen = async () => {
   let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0]}`)
   props.setSelectedInvitee(guest.data)
 }
+
+const handleSend = async (id) => {
+  let rsvpSend = await axios.put(`${process.env.REACT_APP_DATABASE}/invitee/send/${id}`)
+  props.getGuests();
+  console.log(rsvpSend)
+}
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -101,6 +109,18 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: 'RSVP Code',
+  },
+  {
+    id: 'rsvpSend',
+    numeric: false,
+    disablePadding: false,
+    label: 'RSVP Sent',
+  },
+  {
+    id: 'sendButton',
+    numeric: false,
+    disablePadding: false,
+    label: 'Send RSVP',
   },
 ];
 
@@ -251,39 +271,9 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const handleClick = (event, inviteeInfo) => {
-    // let selectedInviteeInfo = {
-    //   firstName: inviteeInfo.name.split(' ')[0],
-    //   lastName: inviteeInfo.name.split(' ')[1],
-    //   sOfirstName: null,
-    //   sOlastName: null,
-    //   couple: false,
-    //   plusOne: false,
-    //   plusOneFirstName: null,
-    //   plusOneLastName: null,
-    //   rsvpCode: inviteeInfo.rsvpCode,
-    //   rsvp: null
-    // };
-    // if(inviteeInfo.sO !== 'none'){
-    //   selectedInviteeInfo.sOfirstName = inviteeInfo.sO.split(' ')[0]
-    //   selectedInviteeInfo.sOlastName = inviteeInfo.sO.split(' ')[1]
-    //   selectedInviteeInfo.couple = true
-    // }
-    // if(inviteeInfo.plusOne !== 'none'){
-    //   selectedInviteeInfo.plusOneFirstName = inviteeInfo.plusOne.split(' ')[0]
-    //   selectedInviteeInfo.plusOneLastName = inviteeInfo.plusOne.split(' ')[1]
-    //   selectedInviteeInfo.plusOne = true
-    // }
-    // if(inviteeInfo.rsvp === 'No'){
-    //   selectedInviteeInfo.rsvp = false
-    // }
-    // else{
-    //   selectedInviteeInfo.rsvp = true
-    // }
-    // props.setSelectedInvitee(selectedInviteeInfo)
     const selectedIndex = props.guestSelected.indexOf(inviteeInfo.id);
     let newSelected = [];
     
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(props.guestSelected, inviteeInfo.id);
     } else if (selectedIndex === 0) {
@@ -346,15 +336,18 @@ EnhancedTableToolbar.propTypes = {
 
                   return (
                     <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row)}
+                      // hover
+                      // onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      <TableCell 
+                      padding="checkbox"
+                      onClick={(event) => handleClick(event, row)}
+                      >
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -371,10 +364,22 @@ EnhancedTableToolbar.propTypes = {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.sO}</TableCell>
-                      <TableCell align="right">{row.plusOne}</TableCell>
-                      <TableCell align="right">{row.rsvp}</TableCell>
-                      <TableCell align="right">{row.rsvpCode}</TableCell>
+                      <TableCell align="left">{row.sO}</TableCell>
+                      <TableCell align="left">{row.plusOne}</TableCell>
+                      <TableCell align="left">{row.rsvp}</TableCell>
+                      <TableCell align="left">{row.rsvpCode}</TableCell>
+                      <TableCell align="left">{row.rsvpSend}</TableCell>
+                      {row.rsvpSend === 'No' ?
+                      <TableCell>
+                        <Button onClick={()=> handleSend(row.id)} variant="contained" color="success">
+                          Send Invite
+                        </Button>
+                      </TableCell>
+                      :
+                      <TableCell>
+
+                      </TableCell>
+                      }
                     </TableRow>
                   );
                 })}
