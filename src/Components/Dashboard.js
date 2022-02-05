@@ -182,7 +182,6 @@ function Dashboard(){
       editSetPlusOneCheck(false)
     }
   },[selectedInvitee.couple, selectedInvitee.plusOne]);
-  console.log(selectedInvitee)
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
