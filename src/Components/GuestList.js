@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Switch,
   FormControlLabel,
@@ -49,6 +49,7 @@ const handleOpen = async () => {
   let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0]}`)
   props.setSelectedInvitee(guest.data)
 }
+
 const handleSend = async () => {
   console.log(props.guestSelected)
   const guests = props.guestSelected.map((invitee) => {
@@ -300,10 +301,14 @@ EnhancedTableToolbar.propTypes = {
 };
 
   const handleDelete = async () => {
-    await axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${props.selectedInvitee.rsvpCode}`)
+    const deleteGuests = props.guestSelected.map((guest) => axios.delete(`${process.env.REACT_APP_DATABASE}/invitee/${guest.rsvpCode}`))
+    await Promise.all(deleteGuests)
+    props.setGuestSelected([])
     props.getGuests();
   }
- 
+
+
+  console.log(props.rows)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -321,11 +326,11 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const handleClick = (event, inviteeInfo) => {
-    const selectedIndex = props.guestSelected.indexOf(inviteeInfo.id);
+    const selectedIndex = props.guestSelected.indexOf(inviteeInfo);
     let newSelected = [];
     
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(props.guestSelected, inviteeInfo.id);
+      newSelected = newSelected.concat(props.guestSelected, inviteeInfo);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(props.guestSelected.slice(1));
     } else if (selectedIndex === props.guestSelected.length - 1) {
@@ -338,7 +343,6 @@ EnhancedTableToolbar.propTypes = {
     }
     props.setGuestSelected(newSelected);
   };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -353,7 +357,6 @@ EnhancedTableToolbar.propTypes = {
   };
 
   const isSelected = (name) => props.guestSelected.indexOf(name) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
@@ -380,7 +383,7 @@ EnhancedTableToolbar.propTypes = {
               {stableSort(props.rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = isSelected(row);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
