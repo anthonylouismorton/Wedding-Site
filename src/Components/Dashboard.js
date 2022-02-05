@@ -72,7 +72,8 @@ function Dashboard(){
     plusOneLastName: null,
     rsvpCode: '',
     rsvp: false,
-    rsvpSend: false
+    rsvpSend: false,
+    email: []
   }
 
   const defaultPhoto = {
@@ -105,7 +106,9 @@ function Dashboard(){
 
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
+    console.log(invitees)
     let refinedInvitees = invitees.data.map((invitee) => {
+      console.log(invitee)
       let rsvp;
       let sO;
       let plusOne;
@@ -134,8 +137,9 @@ function Dashboard(){
       else{
         rsvpSend ='No'
       }
-      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id, rsvpSend: rsvpSend}
+      return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id, rsvpSend: rsvpSend, email: invitee.email}
     })
+    console.log(refinedInvitees)
     setRows(refinedInvitees)
   };
   const setName = (e) => {
@@ -144,6 +148,14 @@ function Dashboard(){
       ...newGuest,
       firstName: name[0],
       lastName: name[1]
+    })
+  }
+
+  const setEmail = (e) => {
+    let emails = e.target.value.split(' ');
+    setNewGuest({
+      ...newGuest,
+      email: emails
     })
   }
 
@@ -185,7 +197,7 @@ function Dashboard(){
     return (
       <>
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
-        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne}/>
+        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne} setEmail={setEmail}/>
         <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
         <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen} selected={selected} setSelected={setSelected}/>
         <DashboardCarousel photos={photos}/>

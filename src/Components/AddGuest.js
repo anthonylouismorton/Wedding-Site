@@ -45,8 +45,8 @@ function AddGuest(props){
 	};
   
   async function rsvpCodeGenerator() {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = 10;
     let existingRSVPcodes = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`)
     for ( var i = 0; i < charactersLength; i++ ) {
@@ -65,77 +65,86 @@ function AddGuest(props){
     return result;
   }
   return(
-    
-        <Box className={props.classes.boxContainer}>
-         <Paper className={props.classes.paperContainer}>
-           <Typography>Add Guest</Typography>
-           <Grid className={props.classes.form}>
-             <form id="create-invitee-form" onSubmit={handleSubmit}>
-               <Grid className={props.classes.description}>
-                 <Grid item>
-                   <TextField
-                     name='name'
-                     id='outlined-multiline-static'
-                     label='Name'
-                     onChange={props.setName}
-                   />
-                 </Grid>
-                 <Grid item>
-                 <FormGroup>
-                  <FormControlLabel control={<Checkbox/>} label="Couple" checked={coupleChecked} onChange={coupleCheck}/>
-                  <FormControlLabel control={<Checkbox/>} label="+1" checked={pluseOneChecked} onChange={plusOneCheck} />
-                </FormGroup>
-                 </Grid>
-               </Grid>
-               {coupleChecked && (
-               <Grid className={props.classes.description}>
-                 <Grid item>
-                   <TextField
-                     name='significantOther'
-                     // value={formValues.incidentOffenseDescription}
-                     id='outlined-multiline-static'
-                     label='SO name'
-                     onChange={props.setSoName}
-                   />
-                 </Grid>
-               </Grid>
-               )}
-               {pluseOneChecked &&(
-               <Grid className={props.classes.description}>
-                 <Grid item>
-                   <TextField
-                     name='plusOneName'
-                    //  value=''
-                     id='outlined-multiline-static'
-                     label='+1 Name'
-                     onChange={props.setPlusOne}
-                   />
-                 </Grid>
-               </Grid>
-               )}
-               <Grid className={props.classes.description}>
-                 <Grid item>
-                   <TextField
-                     name='rsvpCode'
-                     value={props.newGuest.rsvpCode}
-                     id='outlined-multiline-static'
-                     label='RSVP Code'
-                     // onChange={handleChange}
-                   />
-                  <Button onClick={getRSVP} color='success' variant='contained'>
-                   Generate
-                  </Button>
-                 </Grid>
-               </Grid>
-               <Grid item className={props.classes.button}>
-                 <Button type='submit' color='success' variant='contained'>
-                   Submit
-                 </Button>
-               </Grid>
-             </form>
-           </Grid>
-         </Paper>
-       </Box>
+    <Box className={props.classes.boxContainer}>
+      <Paper className={props.classes.paperContainer}>
+        <Typography>Add Guest</Typography>
+        <Grid className={props.classes.form}>
+          <form id="create-invitee-form" onSubmit={handleSubmit}>
+            <Grid className={props.classes.description}>
+              <Grid item>
+                <TextField
+                  name='name'
+                  id='outlined-multiline-static'
+                  label='Name'
+                  onChange={props.setName}
+                />
+              </Grid>
+              <Grid item>
+              <FormGroup>
+              <FormControlLabel control={<Checkbox/>} label="Couple" checked={coupleChecked} onChange={coupleCheck}/>
+              <FormControlLabel control={<Checkbox/>} label="+1" checked={pluseOneChecked} onChange={plusOneCheck} />
+            </FormGroup>
+              </Grid>
+            </Grid>
+            {coupleChecked && (
+            <Grid className={props.classes.description}>
+              <Grid item>
+                <TextField
+                  name='significantOther'
+                  // value={formValues.incidentOffenseDescription}
+                  id='outlined-multiline-static'
+                  label='SO name'
+                  onChange={props.setSoName}
+                />
+              </Grid>
+            </Grid>
+            )}
+            {pluseOneChecked &&(
+            <Grid className={props.classes.description}>
+              <Grid item>
+                <TextField
+                  name='plusOneName'
+                //  value=''
+                  id='outlined-multiline-static'
+                  label='+1 Name'
+                  onChange={props.setPlusOne}
+                />
+              </Grid>
+            </Grid>
+            )}
+            <Grid className={props.classes.description}>
+              <Grid item>
+                <TextField
+                  name='email'
+                  id='outlined-multiline-static'
+                  label='Email'
+                  onChange={props.setEmail}
+                />
+              </Grid>
+            </Grid>
+            <Grid className={props.classes.description}>
+              <Grid item>
+                <TextField
+                  name='rsvpCode'
+                  value={props.newGuest.rsvpCode}
+                  id='outlined-multiline-static'
+                  label='RSVP Code'
+                  // onChange={handleChange}
+                />
+              <Button onClick={getRSVP} color='success' variant='contained'>
+                Generate
+              </Button>
+              </Grid>
+            </Grid>
+            <Grid item className={props.classes.button}>
+              <Button type='submit' color='success' variant='contained'>
+                Submit
+              </Button>
+            </Grid>
+          </form>
+        </Grid>
+      </Paper>
+    </Box>
   )
 }
 
