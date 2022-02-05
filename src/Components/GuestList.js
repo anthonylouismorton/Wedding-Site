@@ -25,9 +25,11 @@ import {
 import{
   Delete,
   FilterList,
-  Edit
+  Edit,
+  Send
 } from '@material-ui/icons'
 import axios from 'axios'
+import {send} from 'emailjs-com'
 
 function GuestList(props){
     const [order, setOrder] = useState('asc');
@@ -35,20 +37,57 @@ function GuestList(props){
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [toSend, setToSend] = useState({
+      to_name: '',
+      guest: '',
+      saveTheDate: '',
+      reply_to: 'anthonymorton760@gmail.com',
+    })
 
 const handleOpen = async () => {
   props.setOpen(true);
   let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0]}`)
   props.setSelectedInvitee(guest.data)
 }
-
-const handleSend = async (id) => {
-  let rsvpSend = await axios.put(`${process.env.REACT_APP_DATABASE}/invitee/send/${id}`)
+const handleSend = async () => {
+  console.log(props.guestSelected)
+  const guests = props.guestSelected.map((invitee) => {
+    let sO;
+    let plusOne ='';
+    if(invitee.sO !== 'none'){
+      sO = ` & ${invitee.sO}`
+    }
+    else{
+      sO = ''
+    }
+    if(invitee.plusOne !== 'none'){
+      plusOne = ' and a guest'
+    }
+    let toSend = {
+      to_name: `${invitee.name}${sO}`,
+      guest: plusOne,
+      saveTheDate: 'https://images.unsplash.com/photo-1615966650071-855b15f29ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y291cGxlJTIwaW4lMjBsb3ZlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+      reply_to: 'anthonymorton760@gmail.com',
+      rsvp_code: invitee.rsvpCode
+    }
+  })
+  send(
+    'service_kpczsow',
+    'TEMPLATE ID',
+    toSend,
+    'USER ID'
+  )
+  .then((response) => {
+    console.log('SUCCESS!', response.status, response.text);
+  })
+  .catch((err) => {
+    console.log('FAILED...', err);
+  });
+  // await Promise.all(guests)
+  // console.log(guests)
+  //await axios.put(`${process.env.REACT_APP_DATABASE}/invitee/send/${guest.id}`)
   props.getGuests();
-  console.log(rsvpSend)
 }
-
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -117,10 +156,10 @@ const headCells = [
     label: 'RSVP Sent',
   },
   {
-    id: 'sendButton',
+    id: 'email',
     numeric: false,
     disablePadding: false,
-    label: 'Send RSVP',
+    label: 'Email',
   },
 ];
 
@@ -180,8 +219,6 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-
-
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
 
@@ -228,13 +265,25 @@ const EnhancedTableToolbar = (props) => {
             <Edit />
           </IconButton>
         </Tooltip>
+        <Tooltip title="Send">
+          <IconButton onClick={handleSend}>
+            <Send/>
+          </IconButton>
+        </Tooltip>
         </>
         : numSelected > 1 ?
+        <>
           <Tooltip title="Delete">
             <IconButton onClick={handleDelete}>
               <Delete />
             </IconButton>
           </Tooltip>
+          <Tooltip title="Send">
+            <IconButton onClick={handleSend}>
+              <Send/>
+            </IconButton>
+          </Tooltip>
+        </>
         : 
         <Tooltip title="Filter list">
           <IconButton>
@@ -261,9 +310,10 @@ EnhancedTableToolbar.propTypes = {
     setOrderBy(property);
   };
 
+    //All checkboxes only highlight when newSeelcteds is set to an id. Need to figure out why
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = props.rows.map((n) => n.id);
+      const newSelecteds = props.rows;
       props.setGuestSelected(newSelecteds);
       return;
     }
@@ -307,7 +357,6 @@ EnhancedTableToolbar.propTypes = {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
-    console.log(props.guestSelected)
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -336,18 +385,15 @@ EnhancedTableToolbar.propTypes = {
 
                   return (
                     <TableRow
-                      // hover
-                      // onClick={(event) => handleClick(event, row)}
+                      hover
+                      onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell 
-                      padding="checkbox"
-                      onClick={(event) => handleClick(event, row)}
-                      >
+                      <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -369,17 +415,7 @@ EnhancedTableToolbar.propTypes = {
                       <TableCell align="left">{row.rsvp}</TableCell>
                       <TableCell align="left">{row.rsvpCode}</TableCell>
                       <TableCell align="left">{row.rsvpSend}</TableCell>
-                      {row.rsvpSend === 'No' ?
-                      <TableCell>
-                        <Button onClick={()=> handleSend(row.id)} variant="contained" color="success">
-                          Send Invite
-                        </Button>
-                      </TableCell>
-                      :
-                      <TableCell>
-
-                      </TableCell>
-                      }
+                      <TableCell align="left">{row.email}</TableCell>
                     </TableRow>
                   );
                 })}
