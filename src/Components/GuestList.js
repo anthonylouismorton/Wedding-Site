@@ -46,7 +46,7 @@ function GuestList(props){
 
 const handleOpen = async () => {
   props.setOpen(true);
-  let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0]}`)
+  let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0].id}`)
   props.setSelectedInvitee(guest.data)
 }
 
