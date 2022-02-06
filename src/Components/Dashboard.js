@@ -106,9 +106,7 @@ function Dashboard(){
 
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
-    console.log(invitees)
     let refinedInvitees = invitees.data.map((invitee) => {
-      console.log(invitee)
       let rsvp;
       let sO;
       let plusOne;
@@ -139,7 +137,6 @@ function Dashboard(){
       }
       return {name: `${invitee.firstName} ${invitee.lastName}`, sO: sO, plusOne: plusOne, rsvp: rsvp, rsvpCode: invitee.rsvpCode, id: invitee._id, rsvpSend: rsvpSend, email: invitee.email}
     })
-    console.log(refinedInvitees)
     setRows(refinedInvitees)
   };
   const setName = (e) => {

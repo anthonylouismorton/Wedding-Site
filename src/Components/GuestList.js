@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
-import {useEffect, useState} from 'react';
+import { useState} from 'react';
 import {
   Switch,
   FormControlLabel,
@@ -20,7 +20,6 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Button
 } from '@mui/material';
 import{
   Delete,
@@ -37,12 +36,6 @@ function GuestList(props){
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [toSend, setToSend] = useState({
-      to_name: '',
-      guest: '',
-      saveTheDate: '',
-      reply_to: 'anthonymorton760@gmail.com',
-    })
 
 const handleOpen = async () => {
   props.setOpen(true);
@@ -52,6 +45,12 @@ const handleOpen = async () => {
 
 const handleSend = async () => {
   console.log(props.guestSelected)
+  let toSend = {
+    to_name: '',
+    guest: '',
+    rsvp_code: '',
+    to_email: '',
+  }
   const guests = props.guestSelected.map((invitee) => {
     let sO;
     let plusOne ='';
@@ -64,29 +63,32 @@ const handleSend = async () => {
     if(invitee.plusOne !== 'none'){
       plusOne = ' and a guest'
     }
-    let toSend = {
+    toSend = {
       to_name: `${invitee.name}${sO}`,
       guest: plusOne,
-      saveTheDate: 'https://images.unsplash.com/photo-1615966650071-855b15f29ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y291cGxlJTIwaW4lMjBsb3ZlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-      reply_to: 'anthonymorton760@gmail.com',
-      rsvp_code: invitee.rsvpCode
+      rsvp_code: invitee.rsvpCode,
+      to_email: invitee.email
     }
+    let updateGuest;
+    if(invitee.rsvpSend === "No"){
+      send(
+        'service_kpczsow',
+        'template_9g5vasq',
+        toSend,
+        'user_ae534oceyDw5ZzqpjncZ7'
+      )
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+      })
+      .catch((err) => {
+        console.log('FAILED...', err);
+      });
+      updateGuest = axios.put(`${process.env.REACT_APP_DATABASE}/invitee/send/${invitee.id}`)
+    }
+    return updateGuest;
   })
-  send(
-    'service_kpczsow',
-    'TEMPLATE ID',
-    toSend,
-    'USER ID'
-  )
-  .then((response) => {
-    console.log('SUCCESS!', response.status, response.text);
-  })
-  .catch((err) => {
-    console.log('FAILED...', err);
-  });
-  // await Promise.all(guests)
-  // console.log(guests)
-  //await axios.put(`${process.env.REACT_APP_DATABASE}/invitee/send/${guest.id}`)
+  await Promise.all(guests)
+  props.setGuestSelected([])
   props.getGuests();
 }
 function descendingComparator(a, b, orderBy) {
@@ -307,8 +309,6 @@ EnhancedTableToolbar.propTypes = {
     props.getGuests();
   }
 
-
-  console.log(props.rows)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
