@@ -1,5 +1,6 @@
 import {Button, Modal, Box, Typography, Paper, Grid, Checkbox, TextField, FormControlLabel, FormGroup} from '@mui/material'
 import axios from 'axios'
+import { useState } from 'react';
 // import { useState } from 'react';
 
 // const style = {
@@ -16,7 +17,6 @@ import axios from 'axios'
 
 
 function EditGuest(props){
-
   const handleSubmit = async (e) => {
     e.preventDefault();
  
@@ -45,6 +45,7 @@ function EditGuest(props){
     props.setSelectedInvitee({
       ...props.defaultGuest,
     })
+    // setDisplayEmail([])
   }
   
   const setName = (e) => {
@@ -62,6 +63,13 @@ function EditGuest(props){
       ...props.selectedInvitee,
       sOfirstName: name[0],
       sOlastName: name[1]
+    })
+  }
+  const setEmail = (e) => {
+    let email = e.target.value.split(' ');
+    props.selectedInvitee({
+      ...props.selectedInvitee,
+      email: email
     })
   }
 
@@ -118,9 +126,10 @@ function EditGuest(props){
                 <Grid item>
                   <TextField
                     name='email'
+                    value={`${props.selectedInvitee.email}`}
                     id='outlined-multiline-static'
                     label='Email'
-                    onChange={props.setEmail}
+                    onChange={setEmail}
                   />
                 </Grid>
               </Grid>
