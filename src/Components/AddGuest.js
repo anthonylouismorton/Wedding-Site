@@ -64,6 +64,7 @@ function AddGuest(props){
     }
     return result;
   }
+  console.log(props.newGuest)
   return(
     <Box className={props.classes.boxContainer}>
       <Paper className={props.classes.paperContainer}>
