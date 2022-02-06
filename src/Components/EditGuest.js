@@ -97,8 +97,8 @@ function EditGuest(props){
            <Typography>Edit Guest</Typography>
            <Grid>
              <form id="create-invitee-form" onSubmit={handleSubmit}>
-               <Grid>
-                 <Grid item>
+              <Grid>
+                <Grid item>
                    <TextField
                      name='name'
                      value={`${props.selectedInvitee.firstName} ${props.selectedInvitee.lastName} `}
@@ -106,14 +106,24 @@ function EditGuest(props){
                      label={props.selectedInvitee.name}
                      onChange={setName}
                    />
-                 </Grid>
-                 <Grid item>
-                 <FormGroup>
-                  <FormControlLabel control={<Checkbox/>} label="Couple" checked={props.editCoupleChecked} onChange={coupleCheck}/>
-                  <FormControlLabel control={<Checkbox/>} label="+1" checked={props.editPlusOneChecked} onChange={plusOneCheck} />
-                </FormGroup>
-                 </Grid>
-               </Grid>
+                </Grid>
+                  <Grid item>
+                    <FormGroup>
+                      <FormControlLabel control={<Checkbox/>} label="Couple" checked={props.editCoupleChecked} onChange={coupleCheck}/>
+                      <FormControlLabel control={<Checkbox/>} label="+1" checked={props.editPlusOneChecked} onChange={plusOneCheck} />
+                  </FormGroup>
+                  </Grid>
+              </Grid>
+              <Grid>
+                <Grid item>
+                  <TextField
+                    name='email'
+                    id='outlined-multiline-static'
+                    label='Email'
+                    onChange={props.setEmail}
+                  />
+                </Grid>
+              </Grid>
                {props.editCoupleChecked && (
                <Grid>
                  <Grid item>
