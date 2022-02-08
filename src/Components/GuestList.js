@@ -385,7 +385,6 @@ EnhancedTableToolbar.propTypes = {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
