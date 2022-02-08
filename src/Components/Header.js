@@ -1,13 +1,10 @@
-import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-// import { SiteContext } from '../context/siteContext';
 import { useEffect, useState } from 'react';
 import { LinkContainer } from "react-router-bootstrap";
+import '../styling/header.css'
 
 function Header() {
-  // const modal = useContext(SiteContext)
-
 
   function useKey(key) {
     // Keep track of key state
@@ -42,11 +39,10 @@ function Header() {
 
     return(
       <>
-      <Navbar>
-        <Container>
-          <Nav activeKey="/Home" className="me-auto">
+      <Navbar bg="none" variant="light">
+          <Nav>
             <Nav.Item>
-              <LinkContainer to="/">
+              <LinkContainer to="/Home">
                 <Nav.Link href="Home">Home</Nav.Link>
               </LinkContainer>
             </Nav.Item>
@@ -76,9 +72,7 @@ function Header() {
                 </LinkContainer>
             </Nav.Item>
             )}
-            {/* <Nav.Link onClick={handleModal} href="GuestBook">GuestBook</Nav.Link> */}
           </Nav>
-        </Container>
       </Navbar>
 
       </>
