@@ -1,6 +1,7 @@
 import {Button, Box, Typography, Paper, Grid, TextField, FormGroup, FormControlLabel, Checkbox} from '@mui/material'
 import axios from 'axios'
 import {useState} from 'react'
+import '../styling/RSVP.css'
 function RSVP(props){
 
   const defaultGuest = {
@@ -56,9 +57,10 @@ function RSVP(props){
     })
   }
     return(
-      <Box>
+      <Box className="rsvpBox">
         <Paper>
           <Typography>RSVP</Typography>
+          <Typography>Please Enter your RSVP Code</Typography>
           <Grid>
             <form id="create-invitee-form" onSubmit={handleSubmit}>
               {!inviteeRSVP.firstName && (
