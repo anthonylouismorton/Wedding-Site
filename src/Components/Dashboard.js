@@ -71,7 +71,7 @@ function Dashboard(){
     plusOneFirstName: '',
     plusOneLastName: '',
     rsvpCode: '',
-    rsvp: false,
+    rsvp: null,
     rsvpSend: false,
     email: []
   }
@@ -114,8 +114,11 @@ function Dashboard(){
       if(invitee.rsvp){
         rsvp = 'Yes'
       }
-      else{
+      else if(invitee.rsvp === false){
         rsvp = 'No'
+      }
+      else{
+        rsvp = 'No reply'
       }
       if(invitee.sOfirstName){
         sO = `${invitee.sOfirstName} ${invitee.sOlastName}`
