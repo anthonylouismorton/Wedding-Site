@@ -2,11 +2,15 @@ import {Button, Box, Typography, Paper, Grid, TextField, FormGroup, FormControlL
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/styles';
+import '../styling/rsvp.css'
+import Image from 'react-bootstrap/Image'
+import backGroundImage from '../images/rsvpBackground.png'
 
 const useStyles = makeStyles({
   boxContainer: {
     height: '100%',
-    width: '30%',
+    minWidth: '25%',
+    maxWidth: '45%',
     textAlign: 'center',
     marginTop: '5%',
     display: 'block',
@@ -20,11 +24,12 @@ const useStyles = makeStyles({
     alignItems: 'center',
     backgroundColor: 'lightgray',
     flexDirection: 'column',
+    padding: '15px'
   },
   form: {
-    marginTop: '20px',
+    marginTop: '10px',
     marginBottom: '20px',
-    width: '90%',
+    // width: '100%',
     // height: '60%',
     // display: 'flex',
     // alignItems: 'center',
@@ -37,7 +42,14 @@ const useStyles = makeStyles({
     backgroundColor: 'black !important'
   },
   textField: {
-    marginTop: '10px !important'
+    marginTop: '15px !important',
+    fontSize: '1rem !important'
+  },
+  formGroup: {
+    marginTop: '15px !important',
+    // display: 'flex',
+    flexDirection: 'row !important',
+    justifyContent: 'center',
   }
 });
 function RSVP(props){
@@ -121,30 +133,32 @@ function RSVP(props){
   }
     return(
       <>
+      {/* <Image src={backGroundImage}></Image> */}
       {rsvpSubmitted && inviteeRSVP.rsvp ?
-      <Box>
-        <Paper>
-          <Typography>Yay {inviteeRSVP.firstName}! We are glad you can make it!</Typography>
-          <Typography>You can checkout the Venue page for directions or information on the wedding venue.</Typography>
-          <Typography>If you need to change your RSVP you can contact Anthony or Kristin or resubmit your RSVP using the RSVP code you received in your email</Typography>
+      <Box className={classes.boxContainer}>
+        <Paper className={classes.paperContainer}>
+          <Typography className='typographySubHeader'>Thank you, {inviteeRSVP.firstName} for your RSVP.</Typography>
+          <Typography className='typographySubHeader'>If you your plans change, please contact Anthony or Kristin</Typography>
+          <Typography className='typographySubHeader'>You may also reuse your RSVP code to make changes to your RSVP</Typography>
         </Paper>
       </Box>
       : rsvpSubmitted && !inviteeRSVP.rsvp ?
-      <Box>
-          <Typography>Awww, we are sorry to hear you can't make it, {inviteeRSVP.firstName}.</Typography>
-          <Typography>If you change your mind you can always contact Kristin or Anthony or resubmit your RSVP using the RSVP code you received in your email</Typography>
-          <Typography>Please contact Kristin or Anthony if your plans change and you cannot make it.</Typography>
+      <Box className={classes.boxContainer}>
+        <Paper className={classes.paperContainer}>
+          <Typography className='typographySubHeader'>Thank you, {inviteeRSVP.firstName} for your RSVP.</Typography>
+          <Typography className='typographySubHeader'>If you your plans change, please contact Anthony or Kristin</Typography>
+          <Typography className='typographySubHeader'>You may also reuse your RSVP code to make changes to your RSVP</Typography>
+        </Paper>
       </Box>
       :
       <Box className={classes.boxContainer}>
         <Paper className={classes.paperContainer}>
           {!rsvpSubmitted && (
-
             <form className={classes.form} onSubmit={handleSubmit}>
-              <Typography variant="h5">RSVP</Typography>
+              <Typography className='typographyHeader'>RSVP</Typography>
               {!inviteeRSVP.firstName && (
                 <Grid>
-                  <Typography>Please Enter your RSVP Code</Typography>
+                  <Typography className='typographyBody'>Please Enter your RSVP Code</Typography>
                 <Grid item>
                   <TextField
                     className={classes.textField}
@@ -165,15 +179,15 @@ function RSVP(props){
                 <Grid>
                 <Grid item>
                 {inviteeRSVP.sOfirstName && inviteeRSVP.sOlastName === inviteeRSVP.lastName ?
-                  <Typography>Greetings {`${inviteeRSVP.firstName} & ${inviteeRSVP.sOfirstName} ${inviteeRSVP.lastName}`} !</Typography>
+                  <Typography className='typographySubHeader'>Greetings {`${inviteeRSVP.firstName} & ${inviteeRSVP.sOfirstName} ${inviteeRSVP.lastName}`} !</Typography>
                   : inviteeRSVP.sOfirstName ?
-                  <Typography>Greetings {`${inviteeRSVP.firstName} & ${inviteeRSVP.sOfirstName}`} !</Typography>
+                  <Typography className='typographySubHeader'>Greetings {`${inviteeRSVP.firstName} & ${inviteeRSVP.sOfirstName}`} !</Typography>
                   :
-                  <Typography>Greetings {`${inviteeRSVP.firstName} ${inviteeRSVP.lastName}`} !</Typography>
+                  <Typography className='typographySubHeader'>Greetings {`${inviteeRSVP.firstName} ${inviteeRSVP.lastName}`} !</Typography>
                 }
                 </Grid>
                 {inviteeRSVP.plusOne ?
-                <Typography>You are invited to bring a guest.</Typography>
+                <Typography className='typographyBody'>You are invited to bring a guest.</Typography>
                 :
                 <Typography></Typography>
                 }
@@ -183,6 +197,7 @@ function RSVP(props){
               <Grid>
                 <Grid item>
                   <TextField
+                    className={classes.textField}
                     name='plusOneName'
                     // defaultValue={`${inviteeRSVP.plusOneFirstName} ${inviteeRSVP.plusOneLastName} `}
                     id='outlined-multiline-static'
@@ -193,15 +208,19 @@ function RSVP(props){
               </Grid>
               )}
               {inviteeRSVP.firstName && (
-              <Grid item>
-                <Typography>Will you be attending the wedding?</Typography>
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox/>} label="Attending" checked={attendingChecked} onChange={handleAttending}/>
-                  <FormControlLabel control={<Checkbox/>} label="Not Attending" checked={notAttendingChecked} onChange={handleNotAttending}/>
-                </FormGroup>
-                <Button type='submit' color='success' variant='contained'>
-                  RSVP
-                </Button>
+              <Grid>
+                <Typography className='typographyBody'>Will you be attending the wedding?</Typography>
+                <Grid item>
+                  <FormGroup className={classes.formGroup}>
+                    <FormControlLabel control={<Checkbox/>} label="Attending" checked={attendingChecked} onChange={handleAttending}/>
+                    <FormControlLabel control={<Checkbox/>} label="Not Attending" checked={notAttendingChecked} onChange={handleNotAttending}/>
+                  </FormGroup>
+                </Grid>
+                <Grid item>
+                  <Button className={classes.button} type='submit' variant='contained'>
+                    RSVP
+                  </Button>
+                </Grid>
               </Grid>
               )}
             </form>
