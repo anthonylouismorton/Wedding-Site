@@ -107,6 +107,7 @@ function Dashboard(){
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
     let refinedInvitees = invitees.data.map((invitee) => {
+      console.log(invitee.plusOne)
       let rsvp;
       let sO;
       let plusOne;
@@ -126,8 +127,11 @@ function Dashboard(){
       else{
         sO = 'none'
       }
-      if(invitee.plusOne){
+      if(invitee.plusOne && invitee.plusOneFirstName){
         plusOne = `${invitee.plusOneFirstName} ${invitee.plusOneLastName}`
+      }
+      else if(invitee.plusOne && !invitee.plusOneFirstName){
+        plusOne = ''
       }
       else{
         plusOne = 'none'

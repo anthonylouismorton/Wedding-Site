@@ -1,9 +1,47 @@
 import {Button, Box, Typography, Paper, Grid, TextField, FormGroup, FormControlLabel, Checkbox} from '@mui/material'
 import axios from 'axios'
 import {useState, useEffect} from 'react'
-import '../styling/RSVP.css'
-function RSVP(props){
+import { makeStyles } from '@material-ui/styles';
 
+const useStyles = makeStyles({
+  boxContainer: {
+    height: '100%',
+    width: '30%',
+    textAlign: 'center',
+    marginTop: '5%',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
+  paperContainer: {
+    // margin: '5px !important',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'lightgray',
+    flexDirection: 'column',
+  },
+  form: {
+    marginTop: '20px',
+    marginBottom: '20px',
+    width: '90%',
+    // height: '60%',
+    // display: 'flex',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  button: {
+    marginTop: '20px !important',
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'black !important'
+  },
+  textField: {
+    marginTop: '10px !important'
+  }
+});
+function RSVP(props){
+  const classes = useStyles();
   const defaultGuest = {
     firstName: '',
     lastName: '',
@@ -26,7 +64,6 @@ function RSVP(props){
   const [rsvpSubmitted, setRSVPsubmitted] = useState(false)
 
   useEffect(() => {
-    console.log('in the use effect')
     if(inviteeRSVP.rsvp){
       setAttendingChecked(true)
       setNotAttendingChecked(false)
@@ -43,9 +80,6 @@ function RSVP(props){
       inviteeRSVP
     )
     setRSVPsubmitted(true)
-    // setInviteeRSVP({
-    //   defaultGuest,
-    // })
   };
 
   const setRSVP = (e) => {
@@ -85,7 +119,6 @@ function RSVP(props){
       plusOneLastName: name[1]
     })
   }
-  console.log(inviteeRSVP)
     return(
       <>
       {rsvpSubmitted && inviteeRSVP.rsvp ?
@@ -103,24 +136,26 @@ function RSVP(props){
           <Typography>Please contact Kristin or Anthony if your plans change and you cannot make it.</Typography>
       </Box>
       :
-      <Box className="rsvpBox">
-        <Paper>
-          <Typography>RSVP</Typography>
+      <Box className={classes.boxContainer}>
+        <Paper className={classes.paperContainer}>
           {!rsvpSubmitted && (
-          <Grid>
-            <form id="create-invitee-form" onSubmit={handleSubmit}>
+
+            <form className={classes.form} onSubmit={handleSubmit}>
+              <Typography variant="h5">RSVP</Typography>
               {!inviteeRSVP.firstName && (
                 <Grid>
-                <Typography>Please Enter your RSVP Code</Typography>
+                  <Typography>Please Enter your RSVP Code</Typography>
                 <Grid item>
                   <TextField
+                    className={classes.textField}
                     name='name'
                     id='outlined-multiline-static'
                     label="RSVP Code"
+                    placeholder="Enter RSVP Code"
                     onChange={setRSVP}
                   />
                 </Grid>
-                <Button type='button' onClick={handleRSVP} color='success' variant='contained'>
+                <Button className={classes.button} type='button' onClick={handleRSVP} variant='contained'>
                   Submit
                 </Button>
   
@@ -129,26 +164,19 @@ function RSVP(props){
               {inviteeRSVP.firstName &&(
                 <Grid>
                 <Grid item>
+                {inviteeRSVP.sOfirstName && inviteeRSVP.sOlastName === inviteeRSVP.lastName ?
+                  <Typography>Greetings {`${inviteeRSVP.firstName} & ${inviteeRSVP.sOfirstName} ${inviteeRSVP.lastName}`} !</Typography>
+                  : inviteeRSVP.sOfirstName ?
+                  <Typography>Greetings {`${inviteeRSVP.firstName} & ${inviteeRSVP.sOfirstName}`} !</Typography>
+                  :
                   <Typography>Greetings {`${inviteeRSVP.firstName} ${inviteeRSVP.lastName}`} !</Typography>
-                  {/* <TextField
-                    name='name'
-                    value={`${inviteeRSVP.firstName} ${inviteeRSVP.lastName} `}
-                    id='outlined-multiline-static'
-                    label="Name"
-                  /> */}
-                </Grid>  
-              </Grid>
-              )}
-              {inviteeRSVP.couple && (
-              <Grid>
-                <Grid item>
-                  <TextField
-                    name='significantOther'
-                    defaultValue={`${inviteeRSVP.sOfirstName} ${inviteeRSVP.sOlastName} `}
-                    id='outlined-multiline-static'
-                    label='SO name'
-                  />
+                }
                 </Grid>
+                {inviteeRSVP.plusOne ?
+                <Typography>You are invited to bring a guest.</Typography>
+                :
+                <Typography></Typography>
+                }
               </Grid>
               )}
               {inviteeRSVP.plusOne && (
@@ -156,7 +184,7 @@ function RSVP(props){
                 <Grid item>
                   <TextField
                     name='plusOneName'
-                    defaultValue={`${inviteeRSVP.plusOneFirstName} ${inviteeRSVP.plusOneLastName} `}
+                    // defaultValue={`${inviteeRSVP.plusOneFirstName} ${inviteeRSVP.plusOneLastName} `}
                     id='outlined-multiline-static'
                     label={`Guest's Name`}
                     onChange={setPlusOne}
@@ -177,7 +205,7 @@ function RSVP(props){
               </Grid>
               )}
             </form>
-          </Grid>
+
           )}
         </Paper>
       </Box>
