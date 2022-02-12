@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+html *
+{
+   font-family: 'URW Chancery L, cursive' !important
+}
+.MuiTypography-body1{
+  margin-top: 10px !important;
+}
