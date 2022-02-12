@@ -6,14 +6,28 @@ import EngagementPhotos from './Components/EngagementPhotos';
 import Dashboard from './Components/Dashboard';
 import WeddingPhotos from './Components/WeddingPhotos';
 import RSVP from './Components/RSVP'
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Switch, Redirect, Link } from "react-router-dom";
+import {useState} from 'react'
+import rsvpBackGroundImage from './images/rsvpBackground.png'
+import mainBackGroundImage from './images/mainBackgroundImage.png'
 
 function App(){
+  const [background, setBackground] = useState(mainBackGroundImage)
+  
+  const handleBackground = (image) => {
+    console.log('in the handle')
+    setBackground(image)
+  }
   return (
-
+    <div style={{
+      backgroundImage: `url(${background})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      minHeight: '100vh',
+      maxHeight: '100vh'
+    }}>
     <Router>
-      <Header />
+    <Header handleBackground={handleBackground}/>
       <Switch>
         <Route exact path="/">
           <Redirect to="/Home" />
@@ -30,11 +44,19 @@ function App(){
         <Route path="/Dashboard">
           <Dashboard/>
         </Route>
-        <Route path="/RSVP">
+        {/* <Link to="/RSVP"
+          onClick={() => handleBackground(rsvpBackGroundImage)}
+          >
+        </Link> */}
+        <Route 
+          path="/RSVP"
+          onClick={() => handleBackground(rsvpBackGroundImage)}
+        >
           <RSVP/>
         </Route>
       </Switch>
-      </Router>
+    </Router>
+  </div>
   );
 }
 

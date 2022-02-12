@@ -3,8 +3,9 @@ import Nav from 'react-bootstrap/Nav';
 import { useEffect, useState } from 'react';
 import { LinkContainer } from "react-router-bootstrap";
 import '../styling/header.css'
+import rsvpBackGroundImage from '../images/rsvpBackground.png'
 
-function Header() {
+function Header(props) {
 
   function useKey(key) {
     // Keep track of key state
@@ -62,7 +63,10 @@ function Header() {
                 <Nav.Link href="EngagementPhotos">Engagement Photos</Nav.Link>
               </LinkContainer>
             </Nav.Item>
-              <LinkContainer to="RSVP">
+              <LinkContainer 
+                to="RSVP" 
+                onClick={() => props.handleBackground(rsvpBackGroundImage)}
+              >
                 <Nav.Link href="RSVP">RSVP</Nav.Link>
               </LinkContainer>
             {shift && (
