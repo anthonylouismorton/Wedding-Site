@@ -1,16 +1,14 @@
 import {Button, Box, Typography, Paper, Grid, TextField, FormGroup, FormControlLabel, Checkbox} from '@mui/material'
 import axios from 'axios'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import { makeStyles } from '@material-ui/styles';
 import '../styling/rsvp.css'
-import Image from 'react-bootstrap/Image'
-import backGroundImage from '../images/rsvpBackground.png'
 
 const useStyles = makeStyles({
   boxContainer: {
     height: '100%',
     minWidth: '25%',
-    maxWidth: '45%',
+    maxWidth: '40%',
     textAlign: 'center',
     marginTop: '5%',
     display: 'block',
@@ -68,24 +66,18 @@ function RSVP(props){
     rsvpSend: false,
     email: []
   }
-
   const [enteredRSVP, setEnteredRSVP] = useState('')
   let [inviteeRSVP, setInviteeRSVP] = useState(defaultGuest)
   const [attendingChecked, setAttendingChecked] = useState(false)
   const [notAttendingChecked, setNotAttendingChecked] = useState(false)
   const [rsvpSubmitted, setRSVPsubmitted] = useState(false)
-
-  useEffect(() => {
-    if(inviteeRSVP.rsvp){
-      setAttendingChecked(true)
-      setNotAttendingChecked(false)
-    }
-    else if(inviteeRSVP.rsvp === false){
-      setAttendingChecked(false)
-      setNotAttendingChecked(true)
-    }
-  },[inviteeRSVP]);
-
+  const [alreadyRSVP, setAlreadyRSVP] = useState(false)
+  
+  const handleClose = () => {
+    setRSVPsubmitted(false)
+    setInviteeRSVP(defaultGuest)
+    setAlreadyRSVP(false)
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`${process.env.REACT_APP_DATABASE}/invitee`,
@@ -103,6 +95,9 @@ function RSVP(props){
     let guest = await axios.get(
       `${process.env.REACT_APP_DATABASE}/invitee/${enteredRSVP}`
     )
+    if(guest.data.rsvp !== null){
+      setAlreadyRSVP(true)
+    }
     setInviteeRSVP(guest.data)
   }
   const handleAttending = (e) => {
@@ -125,29 +120,53 @@ function RSVP(props){
 
   const setPlusOne = (e) => {
     let name = e.target.value.split(' ');
-    setInviteeRSVP({
-      ...inviteeRSVP,
-      plusOneFirstName: name[0],
-      plusOneLastName: name[1]
-    })
+    if(name.length === 1){
+      setInviteeRSVP({
+        ...inviteeRSVP,
+        plusOneFirstName: '',
+        plusOneLastName: ''
+      })
+    }
+    else{
+      setInviteeRSVP({
+        ...inviteeRSVP,
+        plusOneFirstName: name[0],
+        plusOneLastName: name[1]
+      })
+    } 
   }
     return(
       <>
-      {/* <Image src={backGroundImage}></Image> */}
-      {rsvpSubmitted && inviteeRSVP.rsvp ?
+      {alreadyRSVP ?
+        <Box className={classes.boxContainer}>
+        <Paper className={classes.paperContainer}>
+          <Typography className='typographySubHeader'>We have already received your RSVP</Typography>
+          <Typography className='typographySubHeader'>Call or email Kristin or Anthony if your plans have changed</Typography>
+          <Button className={classes.button} type='button' variant='contained' onClick={()=>handleClose()}>
+          Close
+          </Button>
+        </Paper>
+      </Box>
+      :
+      rsvpSubmitted && inviteeRSVP.rsvp ?
       <Box className={classes.boxContainer}>
         <Paper className={classes.paperContainer}>
           <Typography className='typographySubHeader'>Thank you, {inviteeRSVP.firstName} for your RSVP.</Typography>
           <Typography className='typographySubHeader'>If you your plans change, please contact Anthony or Kristin</Typography>
           <Typography className='typographySubHeader'>You may also reuse your RSVP code to make changes to your RSVP</Typography>
+          <Button className={classes.button} type='button' variant='contained' onClick={()=>handleClose()}>
+          Close
+          </Button>
         </Paper>
       </Box>
       : rsvpSubmitted && !inviteeRSVP.rsvp ?
       <Box className={classes.boxContainer}>
         <Paper className={classes.paperContainer}>
-          <Typography className='typographySubHeader'>Thank you, {inviteeRSVP.firstName} for your RSVP.</Typography>
-          <Typography className='typographySubHeader'>If you your plans change, please contact Anthony or Kristin</Typography>
-          <Typography className='typographySubHeader'>You may also reuse your RSVP code to make changes to your RSVP</Typography>
+          <Typography className='typographySubHeader'>Sorry to hear you can't make it.</Typography>
+          <Typography className='typographySubHeader'>If you your plans change in the future and you can make it, please contact Anthony or Kristin</Typography>
+          <Button className={classes.button} type='button' variant='contained' onClick={()=>handleClose()}>
+          Close
+          </Button>
         </Paper>
       </Box>
       :
@@ -199,7 +218,7 @@ function RSVP(props){
                   <TextField
                     className={classes.textField}
                     name='plusOneName'
-                    // defaultValue={`${inviteeRSVP.plusOneFirstName} ${inviteeRSVP.plusOneLastName} `}
+                    defaultValue={`${inviteeRSVP.plusOneFirstName} ${inviteeRSVP.plusOneLastName} `}
                     id='outlined-multiline-static'
                     label={`Guest's Name`}
                     onChange={setPlusOne}

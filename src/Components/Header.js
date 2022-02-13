@@ -2,19 +2,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { useEffect, useState } from 'react';
 import { LinkContainer } from "react-router-bootstrap";
-import '../styling/header.css'
-import rsvpBackGroundImage from '../images/rsvpBackground.png'
+import '../styling/header.css';
+import rsvpBackGroundImage from '../images/rsvpBackground.png';
+import mainBackGroundImage from '../images/mainBackgroundImage.png';
 
 function Header(props) {
 
-  function useKey(key) {
-    // Keep track of key state
-    const [pressed, setPressed] = useState(false)
 
-    // Does an event match the key we're watching?
+  function useKey(key) {
+    const [pressed, setPressed] = useState(false)
     const match = event => key === event.key
 
-    // Event handlers
     const onDown = event => {
         if (match(event)) setPressed(true)
     }
@@ -23,7 +21,6 @@ function Header(props) {
         if (match(event)) setPressed(false)
     }
 
-    // Bind and unbind events
     useEffect(() => {
         window.addEventListener("keydown", onDown)
         window.addEventListener("keyup", onUp)
@@ -43,7 +40,10 @@ function Header(props) {
       <Navbar bg="none" variant="light">
           <Nav>
             <Nav.Item>
-              <LinkContainer to="/Home">
+              <LinkContainer 
+                to="/Home"
+                onClick={() => props.handleBackground(rsvpBackGroundImage)}
+              >
                 <Nav.Link href="Home">Home</Nav.Link>
               </LinkContainer>
             </Nav.Item>
@@ -65,7 +65,7 @@ function Header(props) {
             </Nav.Item>
               <LinkContainer 
                 to="RSVP" 
-                onClick={() => props.handleBackground(rsvpBackGroundImage)}
+                onClick={() => props.handleBackground(mainBackGroundImage)}
               >
                 <Nav.Link href="RSVP">RSVP</Nav.Link>
               </LinkContainer>
