@@ -8,5 +8,6 @@
   justify-content: center;
   padding-top: .5rem;
   padding-bottom: .5rem;
-  border-bottom: 1px gray solid;
+  border-bottom: 2px solid gray;
+  background-color: #FFAAAA
 }

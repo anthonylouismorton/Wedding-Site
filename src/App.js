@@ -6,7 +6,7 @@ import EngagementPhotos from './Components/EngagementPhotos';
 import Dashboard from './Components/Dashboard';
 import WeddingPhotos from './Components/WeddingPhotos';
 import RSVP from './Components/RSVP'
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import {useState} from 'react'
 import rsvpBackGroundImage from './images/rsvpBackground.png'
 import mainBackGroundImage from './images/mainBackgroundImage.png'
@@ -14,10 +14,10 @@ import mainBackGroundImage from './images/mainBackgroundImage.png'
 function App(){
   const [background, setBackground] = useState(mainBackGroundImage)
   
-  const handleBackground = (image) => {
-    console.log('in the handle')
+  const handleBackground = (image, currentPage) => {
     setBackground(image)
   }
+  console.log(background)
   return (
     <div style={{
       backgroundImage: `url(${background})`,
@@ -52,7 +52,7 @@ function App(){
           path="/RSVP"
           onClick={() => handleBackground(rsvpBackGroundImage)}
         >
-          <RSVP/>
+          <RSVP handleBackground={handleBackground}/>
         </Route>
       </Switch>
     </Router>
