@@ -1,5 +1,3 @@
-import '../styling/main.css'
-
 function Main(){
 
     return (

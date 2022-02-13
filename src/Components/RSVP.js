@@ -6,32 +6,25 @@ import '../styling/rsvp.css'
 
 const useStyles = makeStyles({
   boxContainer: {
-    height: '100%',
     minWidth: '25%',
     maxWidth: '40%',
     textAlign: 'center',
-    marginTop: '5%',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    msTransform: 'translate(-50%, -50%)',
+    transform: 'translate(-50%, -50%)',
   },
   paperContainer: {
-    // margin: '5px !important',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightgray',
     flexDirection: 'column',
     padding: '15px'
   },
   form: {
     marginTop: '10px',
     marginBottom: '20px',
-    // width: '100%',
-    // height: '60%',
-    // display: 'flex',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   button: {
     marginTop: '20px !important',
@@ -45,7 +38,6 @@ const useStyles = makeStyles({
   },
   formGroup: {
     marginTop: '15px !important',
-    // display: 'flex',
     flexDirection: 'row !important',
     justifyContent: 'center',
   }

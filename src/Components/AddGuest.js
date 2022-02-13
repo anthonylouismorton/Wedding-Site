@@ -15,6 +15,12 @@ import {useState} from 'react'
 function AddGuest(props){ 
   const [coupleChecked, setCoupleChecked] = useState(false);
   const [pluseOneChecked, setplusOneCheck] = useState(false);
+
+  const handleAddGuest = () => {
+    console.log('in the handler')
+    props.setShowAddGuest(!props.showAddGuest)
+  }
+  
   const getRSVP = (e) => {
     rsvpCodeGenerator()
   }
@@ -68,7 +74,7 @@ function AddGuest(props){
   return(
     <Box className={props.classes.boxContainer}>
       <Paper className={props.classes.paperContainer}>
-        <Typography>Add Guest</Typography>
+        <Typography className={props.classes.headerTypo}>Add Guest</Typography>
         <Grid className={props.classes.form}>
           <form id="create-invitee-form" onSubmit={handleSubmit}>
             <Grid className={props.classes.description}>
@@ -76,12 +82,12 @@ function AddGuest(props){
                 <TextField
                   name='name'
                   id='outlined-multiline-static'
-                  label='Name'
+                  label='Guest Name'
                   onChange={props.setName}
                 />
               </Grid>
               <Grid item>
-              <FormGroup>
+              <FormGroup className={props.classes.formGroup}>
               <FormControlLabel control={<Checkbox/>} label="Couple" checked={coupleChecked} onChange={coupleCheck}/>
               <FormControlLabel control={<Checkbox/>} label="+1" checked={pluseOneChecked} onChange={plusOneCheck} />
             </FormGroup>
@@ -132,14 +138,17 @@ function AddGuest(props){
                   label='RSVP Code'
                   // onChange={handleChange}
                 />
-              <Button onClick={getRSVP} color='success' variant='contained'>
+              <Button onClick={getRSVP} color='primary' variant='contained'>
                 Generate
               </Button>
               </Grid>
             </Grid>
             <Grid item className={props.classes.button}>
-              <Button type='submit' color='success' variant='contained'>
+              <Button type='submit' color='primary' variant='contained'>
                 Submit
+              </Button>
+              <Button type='button' color='primary' variant='contained' onClick={handleAddGuest}>
+                Hide
               </Button>
             </Grid>
           </form>
