@@ -32,7 +32,9 @@ function AddPhoto(props){
       caption: e.target.value
     })
   }
-
+  const handleAddPhoto = () => {
+    props.setShowAddPhoto(!props.showAddphoto)
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post(
@@ -50,17 +52,16 @@ function AddPhoto(props){
   return(
     <Box className={props.classes.boxContainer}>
       <Paper className={props.classes.paperContainer}>
-        <Typography>Add Photos</Typography>
+        <Typography className={props.classes.headerTypo}>Add Photos</Typography>
         <Grid className={props.classes.form}>
           <form onSubmit={handleSubmit} id="create-photo-form">
-            <Grid className={props.classes.incident}>
+            <Grid>
               <Grid item>
                 <FormControl fullWidth>
                   <InputLabel id='demo-simple-select-label'>
                     Category
                   </InputLabel>
                   <Select
-                    //name='photoCategory'
                     value={props.newPhoto.category}
                     label='photoCategory'
                     onChange={categorySelect}
@@ -71,7 +72,7 @@ function AddPhoto(props){
                 </FormControl>
               </Grid>
             </Grid>
-            <Grid className={props.classes.description}>
+            <Grid>
               <Grid item>
                 <TextField
                   name='photoUrl'
@@ -82,7 +83,7 @@ function AddPhoto(props){
                 />
               </Grid>
             </Grid>
-            <Grid className={props.classes.description}>
+            <Grid>
               <Grid item>
                 <TextField
                   name='caption'
@@ -94,8 +95,11 @@ function AddPhoto(props){
               </Grid>
             </Grid>
             <Grid item className={props.classes.button}>
-              <Button type='submit' color='success' variant='contained'>
+              <Button type='submit' color='primary' variant='contained'>
                 Submit
+              </Button>
+              <Button type='button' color='primary' variant='contained' onClick={handleAddPhoto}>
+                Hide
               </Button>
             </Grid>
           </form>

@@ -8,7 +8,6 @@ import mainBackGroundImage from '../images/mainBackgroundImage.png';
 
 function Header(props) {
 
-
   function useKey(key) {
     const [pressed, setPressed] = useState(false)
     const match = event => key === event.key
@@ -42,7 +41,7 @@ function Header(props) {
             <Nav.Item>
               <LinkContainer 
                 to="/Home"
-                onClick={() => props.handleBackground(rsvpBackGroundImage)}
+                onClick={() => props.handleBackground(mainBackGroundImage)}
               >
                 <Nav.Link href="Home">Home</Nav.Link>
               </LinkContainer>
@@ -59,19 +58,25 @@ function Header(props) {
               </LinkContainer>
             </Nav.Item>
             <Nav.Item>
-              <LinkContainer to="EngagementPhotos">
+              <LinkContainer 
+                to="EngagementPhotos"
+                onClick={() => props.handleBackground('')}
+              >
                 <Nav.Link href="EngagementPhotos">Engagement Photos</Nav.Link>
               </LinkContainer>
             </Nav.Item>
               <LinkContainer 
                 to="RSVP" 
-                onClick={() => props.handleBackground(mainBackGroundImage)}
+                onClick={() => props.handleBackground(rsvpBackGroundImage)}
               >
                 <Nav.Link href="RSVP">RSVP</Nav.Link>
               </LinkContainer>
             {shift && (
             <Nav.Item>
-              <LinkContainer to="Dashboard">
+              <LinkContainer 
+                to="Dashboard"
+                onClick={() => props.handleBackground('')}
+              >
                 <Nav.Link href="Dashboard">Dashboard</Nav.Link>
                 </LinkContainer>
             </Nav.Item>

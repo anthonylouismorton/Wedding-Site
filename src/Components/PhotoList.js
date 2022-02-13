@@ -19,12 +19,14 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
 } from '@mui/material';
 import{
   Delete,
   FilterList,
-  Edit
+  Edit,
+  ViewCarousel,
+  Add
 } from '@material-ui/icons'
 import axios from 'axios'
 import '../styling/photoList.css'
@@ -42,6 +44,13 @@ const handleOpen = async () => {
   props.setSelectedPhoto(photo.data)
 };
 
+const handleCarousel = () => {
+  props.setShowCarousel(!props.showCarousel)
+}
+
+const handleAddPhoto = () => {
+  props.setShowAddPhoto(!props.showAddphoto)
+}
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -160,7 +169,6 @@ EnhancedTableHead.propTypes = {
 
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
-
   return (
     <Toolbar
       sx={{
@@ -182,14 +190,26 @@ const EnhancedTableToolbar = (props) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Photo List
-        </Typography>
+        <>
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Photos
+          </Typography>
+          <Tooltip title="Add Photo">
+            <IconButton onClick={handleAddPhoto}>
+              <Add />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Toggle Carousel">
+            <IconButton onClick={handleCarousel}>
+              <ViewCarousel />
+            </IconButton>
+          </Tooltip>
+        </>
       )}
 
       {numSelected === 1 ? 

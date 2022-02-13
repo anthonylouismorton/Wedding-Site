@@ -11,25 +11,20 @@ import axios from 'axios';
 
 const useStyles = makeStyles({
 	boxContainer: {
-		// backgroundImage: 'url(https://source.unsplash.com/random/?neighborhood)',
-		backgroundRepeat: 'no-repeat',
-		backgroundSize: 'cover',
-		width: '110%',
-		height: '99%',
+    marginTop: '10px',
+		minWidth: '400px',
+    minHeight: '500px',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 10,
+		// borderRadius: 10,
 	},
 	paperContainer: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'lightgray',
-		width: '50%',
-		height: '75%',
-		borderRadius: 10,
-		flexDirection: 'column',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    padding: '15px'
 	},
 	form: {
 		marginTop: '10px',
@@ -40,20 +35,29 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	incident: {
-		width: '100%',
-		marginBottom: '10px',
-	},
-	description: {
-		display: 'flex',
-		justifyContent: 'center',
-		marginBottom: '10px',
-		width: '100%',
-	},
 	button: {
-		display: 'flex',
-		justifyContent: 'center',
+      marginTop: '20px !important',
+      display: 'flex',
+      justifyContent: 'center',
 	},
+  div:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  headerTypo:{
+    fontSize: '2rem !important',
+    fontWeight: 'bold !important'
+  },
+  formGroup: {
+    marginTop: '10px !important',
+    flexDirection: 'row !important',
+    justifyContent: 'center',
+  },
+  textField: {
+    marginTop: '15px !important',
+    fontSize: '1rem !important'
+  },
 });
 
 
@@ -97,6 +101,9 @@ function Dashboard(){
   const [guestSelected, setGuestSelected] = useState([])
   const handleClose = () => setOpen(false);
   const handleEditClose = () => setPhotoOpen(false)
+  const [showCarousel, setShowCarousel] = useState(false)
+  const [showAddphoto, setShowAddPhoto] = useState(false)
+  const [showAddGuest, setShowAddGuest] = useState(false)
 
   const getPhotos = async () => {
     let dbPhotos = await axios.get(`${process.env.REACT_APP_DATABASE}/photo`);
@@ -107,7 +114,6 @@ function Dashboard(){
   let getGuests = async () => {
     let invitees = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee`);
     let refinedInvitees = invitees.data.map((invitee) => {
-      console.log(invitee.plusOne)
       let rsvp;
       let sO;
       let plusOne;
@@ -181,7 +187,6 @@ function Dashboard(){
     })
   }
 
-
   useEffect(() => {
     getPhotos();
     getGuests();
@@ -200,11 +205,17 @@ function Dashboard(){
   },[selectedInvitee.couple, selectedInvitee.plusOne]);
     return (
       <>
-        <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
-        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne} setEmail={setEmail}/>
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
-        <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen} selected={selected} setSelected={setSelected}/>
+        {showAddGuest &&
+        <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne} setEmail={setEmail} showAddGuest={showAddGuest} setShowAddGuest={setShowAddGuest}/>
+        }
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen} guestSelected={guestSelected} setGuestSelected={setGuestSelected} showAddGuest={showAddGuest} setShowAddGuest={setShowAddGuest}/>
+        <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen} selected={selected} setSelected={setSelected} showCarousel={showCarousel} setShowCarousel={setShowCarousel} showAddphoto={showAddphoto} setShowAddPhoto={setShowAddPhoto}/>
+        {showAddphoto &&
+        <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos} showAddphoto={showAddphoto} setShowAddPhoto={setShowAddPhoto}/>
+        }
+        {showCarousel &&
         <DashboardCarousel photos={photos}/>
+        }
         <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
         <EditPhoto photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} handleClose={handleEditClose} selected={selected} setSelected={setSelected} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
       </>

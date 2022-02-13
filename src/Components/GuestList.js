@@ -25,7 +25,8 @@ import{
   Delete,
   FilterList,
   Edit,
-  Send
+  Send,
+  Add
 } from '@material-ui/icons'
 import axios from 'axios'
 import {send} from 'emailjs-com'
@@ -42,7 +43,10 @@ const handleOpen = async () => {
   let guest = await axios.get(`${process.env.REACT_APP_DATABASE}/invitee/id/${props.guestSelected[0].id}`)
   props.setSelectedInvitee(guest.data)
 }
-
+const handleAddGuest = () => {
+  console.log('in the handler')
+  props.setShowAddGuest(!props.showAddGuest)
+}
 const handleSend = async () => {
   console.log(props.guestSelected)
   let toSend = {
@@ -288,11 +292,19 @@ const EnhancedTableToolbar = (props) => {
           </Tooltip>
         </>
         : 
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterList />
+        <>
+        <Tooltip title="Add Guest">
+          <IconButton onClick={handleAddGuest}>
+            <Add />
           </IconButton>
         </Tooltip>
+        
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterList/>
+          </IconButton>
+        </Tooltip>
+        </>
       }
     </Toolbar>
   );
