@@ -256,7 +256,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: '1 1 100%' }}
+        sx={{ flex: '1 1 100%', textAlign: 'center'}}
           variant="h6"
           id="tableTitle"
           component="div"
