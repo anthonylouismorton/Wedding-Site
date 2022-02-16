@@ -1,8 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel'
-import { Box } from '@mui/material'
 import axios from 'axios'
 import {useState, useEffect} from 'react'
-import comingSoon from '../images/comingSoon.png'
 import '../styling/engagement.css'
 
 function EngagementPhotos() {
@@ -19,8 +17,6 @@ function EngagementPhotos() {
   }, []);
   console.log(photos)
     return(
-      <>
-      {photos.length > 0 ?
       <Carousel fade>
         {photos.map((photo) => {
           return(
@@ -37,12 +33,6 @@ function EngagementPhotos() {
           )
         })}
       </Carousel>
-      :
-      <Box id="cSContainer">
-      <img id="cSEngagement" src={comingSoon} alt="comingSoon"></img>
-      </Box>
-      }
-    </>
     )
   }
 

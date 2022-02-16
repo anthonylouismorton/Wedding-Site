@@ -20,7 +20,7 @@ function AddGuest(props){
     console.log('in the handler')
     props.setShowAddGuest(!props.showAddGuest)
   }
-  
+
   const getRSVP = (e) => {
     rsvpCodeGenerator()
   }
@@ -72,7 +72,7 @@ function AddGuest(props){
   }
   console.log(props.newGuest)
   return(
-    <Box className={props.classes.boxContainer}>
+    <Box className={props.classes.addGuestContainer}>
       <Paper className={props.classes.paperContainer}>
         <Typography className={props.classes.headerTypo}>Add Guest</Typography>
         <Grid className={props.classes.form}>

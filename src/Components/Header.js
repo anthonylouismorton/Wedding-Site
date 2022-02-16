@@ -46,11 +46,11 @@ function Header(props) {
                 <Nav.Link href="Home">Home</Nav.Link>
               </LinkContainer>
             </Nav.Item>
-            <Nav.Item>
+            {/* <Nav.Item>
               <LinkContainer to="Venue">
                 <Nav.Link href="Venue">Venue</Nav.Link>
               </LinkContainer>
-            </Nav.Item>
+            </Nav.Item> */}
             <Nav.Link href="registry">Registry</Nav.Link>
             <Nav.Item>
               <LinkContainer to="WeddingPhotos">
