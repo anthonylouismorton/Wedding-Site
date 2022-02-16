@@ -31,7 +31,8 @@ const useStyles = makeStyles({
     width: '70%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '50px'
+    paddingTop: '50px',
+    paddingBottom: '50px'
   }
 });
 
@@ -71,6 +72,7 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
+
 function stableSort(array, comparator) {
   let stabilizedThis = [];
   if(array.length > 0){
@@ -195,7 +197,7 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <>
           <Typography
-            sx={{ flex: '1 1 100%' }}
+            sx={{ flex: '1 1 100%', textAlign: 'center'}}
             variant="h6"
             id="tableTitle"
             component="div"

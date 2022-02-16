@@ -3,17 +3,14 @@ import { Carousel } from 'react-bootstrap'
 
 
 function DashboardCarousel(props) {
-    const handleCarouselClick = (e) => {
-        
-        // setSelectedImage({})
-      }
+
         return (
             <div>
-                <h2>Photos</h2>
+                {/* <h2>Photos</h2> */}
                 <Carousel fade>
                     {props.photos.map((photo) => {
                     return(
-                    <Carousel.Item key={photo._id} onClick={handleCarouselClick}>
+                    <Carousel.Item key={photo._id}>
                     <img
                         className="d-block w-100"
                         src={photo.photoUrl}
