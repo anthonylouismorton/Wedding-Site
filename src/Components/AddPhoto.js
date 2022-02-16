@@ -50,15 +50,15 @@ function AddPhoto(props){
 	};
 
   return(
-    <Box className={props.classes.boxContainer}>
+    <Box className={props.classes.addPhotosContainer}>
       <Paper className={props.classes.paperContainer}>
-        <Typography className={props.classes.headerTypo}>Add Photos</Typography>
-        <Grid className={props.classes.form}>
-          <form onSubmit={handleSubmit} id="create-photo-form">
-            <Grid>
+        <Typography className={props.classes.headerTypo}>Add Photo</Typography>
+        <Grid>
+          <form className={props.classes.form} onSubmit={handleSubmit} id="create-photo-form">
+            <Grid className={props.classes.grid}>
               <Grid item>
-                <FormControl fullWidth>
-                  <InputLabel id='demo-simple-select-label'>
+                <FormControl className={props.classes.inputBoxes}>
+                  <InputLabel >
                     Category
                   </InputLabel>
                   <Select
@@ -72,7 +72,7 @@ function AddPhoto(props){
                 </FormControl>
               </Grid>
             </Grid>
-            <Grid>
+            <Grid className={props.classes.grid}>
               <Grid item>
                 <TextField
                   name='photoUrl'
@@ -80,10 +80,11 @@ function AddPhoto(props){
                   id='outlined-multiline-static'
                   label='Url'
                   onChange={setUrl}
+                  className={props.classes.inputBoxes}
                 />
               </Grid>
             </Grid>
-            <Grid>
+            <Grid className={props.classes.grid}>
               <Grid item>
                 <TextField
                   name='caption'
@@ -91,6 +92,7 @@ function AddPhoto(props){
                   id='outlined-multiline-static'
                   label='caption'
                   onChange={setCaption}
+                  className={props.classes.inputBoxes}
                 />
               </Grid>
             </Grid>

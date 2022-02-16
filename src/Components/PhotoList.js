@@ -21,22 +21,27 @@ import {
   TableRow,
   TableSortLabel,
 } from '@mui/material';
-import{
-  Delete,
-  FilterList,
-  Edit,
-  ViewCarousel,
-  Add
-} from '@material-ui/icons'
+import{ Delete, FilterList, Edit, ViewCarousel, Add } from '@material-ui/icons'
 import axios from 'axios'
 import '../styling/photoList.css'
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  box: {
+    width: '70%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px'
+  }
+});
 
 function PhotoList(props){
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('name');
-    const [page, setPage] = useState(0);
-    const [dense, setDense] = useState(false);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+const classes = useStyles();
+const [order, setOrder] = useState('asc');
+const [orderBy, setOrderBy] = useState('name');
+const [page, setPage] = useState(0);
+const [dense, setDense] = useState(false);
+const [rowsPerPage, setRowsPerPage] = useState(5);
     
 const handleOpen = async () => { 
   props.setPhotoOpen(true)
@@ -84,9 +89,9 @@ function stableSort(array, comparator) {
 const headCells = [
   {
     id: 'photoURL',
-    numeric: false,
+    numeric: true,
     disablePadding: true,
-    label: 'Photo Url',
+    label: 'Photo',
   },
   {
     id: 'category',
@@ -96,13 +101,13 @@ const headCells = [
   },
   {
     id: 'caption',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'Caption',
   },
   {
     id: 'tags',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'Tags',
   },
@@ -133,7 +138,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.numeric ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -164,8 +169,6 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
-
-
 
 const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
@@ -307,12 +310,12 @@ EnhancedTableToolbar.propTypes = {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.photos.length) : 0;
     
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box className={classes.box}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={props.selected.length} />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            // sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -351,7 +354,7 @@ EnhancedTableToolbar.propTypes = {
                           }}
                         />
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="Left">
                         <img id="thumbnail" src={row.photoUrl} alt ={row.photoUrl}/>
                       </TableCell>
                       <TableCell align="center">{row.category}</TableCell>
@@ -382,10 +385,10 @@ EnhancedTableToolbar.propTypes = {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
-      />
+      /> */}
     </Box>
   );
 

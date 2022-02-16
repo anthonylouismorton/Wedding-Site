@@ -21,22 +21,27 @@ import {
   TableRow,
   TableSortLabel,
 } from '@mui/material';
-import{
-  Delete,
-  FilterList,
-  Edit,
-  Send,
-  Add
-} from '@material-ui/icons'
+import{Delete, FilterList, Edit, Send, Add} from '@material-ui/icons'
 import axios from 'axios'
 import {send} from 'emailjs-com'
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  box: {
+    width: '75%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px'
+  }
+});
 
 function GuestList(props){
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('name');
-    const [page, setPage] = useState(0);
-    const [dense, setDense] = useState(false);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+const classes = useStyles();
+const [order, setOrder] = useState('asc');
+const [orderBy, setOrderBy] = useState('name');
+const [page, setPage] = useState(0);
+const [dense, setDense] = useState(false);
+const [rowsPerPage, setRowsPerPage] = useState(5);
 
 const handleOpen = async () => {
   props.setOpen(true);
@@ -128,7 +133,7 @@ function stableSort(array, comparator) {
 const headCells = [
   {
     id: 'name',
-    numeric: false,
+    numeric: true,
     disablePadding: true,
     label: 'Name',
   },
@@ -136,23 +141,23 @@ const headCells = [
     id: 'so',
     numeric: false,
     disablePadding: false,
-    label: 'Significant other',
+    label: 'Significant Other',
   },
   {
     id: 'plusOne',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: '+1',
   },
   {
     id: 'rsvp',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'RSVP',
   },
   {
     id: 'rsvpCode',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'RSVP Code',
   },
@@ -194,7 +199,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.numeric ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -373,7 +378,7 @@ EnhancedTableToolbar.propTypes = {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box className={classes.box}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={props.guestSelected.length} />
         <TableContainer>
@@ -424,12 +429,12 @@ EnhancedTableToolbar.propTypes = {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="left">{row.sO}</TableCell>
-                      <TableCell align="left">{row.plusOne}</TableCell>
-                      <TableCell align="left">{row.rsvp}</TableCell>
-                      <TableCell align="left">{row.rsvpCode}</TableCell>
-                      <TableCell align="left">{row.rsvpSend}</TableCell>
-                      <TableCell align="left">{row.email}</TableCell>
+                      <TableCell align="center">{row.sO}</TableCell>
+                      <TableCell align="center">{row.plusOne}</TableCell>
+                      <TableCell align="center">{row.rsvp}</TableCell>
+                      <TableCell align="center">{row.rsvpCode}</TableCell>
+                      <TableCell align="center">{row.rsvpSend}</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -445,6 +450,10 @@ EnhancedTableToolbar.propTypes = {
             </TableBody>
           </Table>
         </TableContainer>
+        {/* <FormControlLabel
+          control={<Switch checked={dense} onChange={handleChangeDense} />}
+          label="Dense padding"
+        /> */}
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
@@ -455,10 +464,6 @@ EnhancedTableToolbar.propTypes = {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 

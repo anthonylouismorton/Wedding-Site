@@ -10,35 +10,41 @@ import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
 
 const useStyles = makeStyles({
-	boxContainer: {
-    marginTop: '10px',
-		minWidth: '400px',
-    minHeight: '500px',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		// borderRadius: 10,
+	addPhotosContainer: {
+    width: '400px',
+    textAlign: 'center',
+    marginTop: '4%',
+    margin: 'auto',
+    height: '400px',
+	},
+  addGuestContainer: {
+    width: '450px',
+    textAlign: 'center',
+    marginTop: '4%',
+    margin: 'auto',
+    height: '400px',
 	},
 	paperContainer: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'column',
     padding: '15px'
 	},
 	form: {
-		marginTop: '10px',
-		marginBottom: '10px',
-		width: '80%',
-		height: '60%',
+		marginTop: '20px',
+		// marginBottom: '10px',
+		// width: '80%',
+		// height: '60%',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+    flexDirection: 'column'
+    // flexWrap: 'wrap'
 	},
 	button: {
       marginTop: '20px !important',
       display: 'flex',
-      justifyContent: 'center',
+      justifyContent: 'space-between !important',
+      width: '200px'
 	},
   div:{
     display: 'flex',
@@ -46,7 +52,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
   },
   headerTypo:{
-    fontSize: '2rem !important',
+    fontSize: '1.5rem !important',
     fontWeight: 'bold !important'
   },
   formGroup: {
@@ -54,13 +60,14 @@ const useStyles = makeStyles({
     flexDirection: 'row !important',
     justifyContent: 'center',
   },
-  textField: {
-    marginTop: '15px !important',
-    fontSize: '1rem !important'
+  grid: {
+    marginTop: '30px !important',
+    // fontSize: '1rem !important'
   },
+  inputBoxes: {
+    width: '200px',
+  }
 });
-
-
 
 function Dashboard(){
   const classes = useStyles();
@@ -208,11 +215,11 @@ function Dashboard(){
         {showAddGuest &&
         <AddGuest classes={classes} newGuest={newGuest} setNewGuest={setNewGuest} defaultGuest={defaultGuest} getGuests={getGuests} setName={setName} setSoName={setSoName} setPlusOne={setPlusOne} setEmail={setEmail} showAddGuest={showAddGuest} setShowAddGuest={setShowAddGuest}/>
         }
-        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen} guestSelected={guestSelected} setGuestSelected={setGuestSelected} showAddGuest={showAddGuest} setShowAddGuest={setShowAddGuest}/>
-        <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen} selected={selected} setSelected={setSelected} showCarousel={showCarousel} setShowCarousel={setShowCarousel} showAddphoto={showAddphoto} setShowAddPhoto={setShowAddPhoto}/>
         {showAddphoto &&
         <AddPhoto classes={classes} newPhoto={newPhoto} setNewPhoto={setNewPhoto} defaultPhoto={defaultPhoto} getPhotos={getPhotos} showAddphoto={showAddphoto} setShowAddPhoto={setShowAddPhoto}/>
         }
+        <GuestList selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} rows={rows} getGuests={getGuests} setOpen={setOpen} guestSelected={guestSelected} setGuestSelected={setGuestSelected} showAddGuest={showAddGuest} setShowAddGuest={setShowAddGuest}/>
+        <PhotoList selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} photos={photos} getPhotos={getPhotos} setPhotoOpen={setPhotoOpen} selected={selected} setSelected={setSelected} showCarousel={showCarousel} setShowCarousel={setShowCarousel} showAddphoto={showAddphoto} setShowAddPhoto={setShowAddPhoto}/>
         {showCarousel &&
         <DashboardCarousel photos={photos}/>
         }

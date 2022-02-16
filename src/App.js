@@ -11,7 +11,7 @@ import {useState} from 'react'
 import mainBackGroundImage from './images/mainBackgroundImage.png'
 
 function App(){
-  const [background, setBackground] = useState(mainBackGroundImage)
+  const [background, setBackground] = useState('')
   
   const handleBackground = (image) => {
     console.log('in handle background')
