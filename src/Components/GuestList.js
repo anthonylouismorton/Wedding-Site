@@ -367,9 +367,9 @@ EnhancedTableToolbar.propTypes = {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  // const handleChangeDense = (event) => {
+  //   setDense(event.target.checked);
+  // };
 
   const isSelected = (name) => props.guestSelected.indexOf(name) !== -1;
   // Avoid a layout jump when reaching the last page with empty rows.

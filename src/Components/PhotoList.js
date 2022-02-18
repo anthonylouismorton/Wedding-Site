@@ -299,9 +299,9 @@ EnhancedTableToolbar.propTypes = {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  // const handleChangeDense = (event) => {
+  //   setDense(event.target.checked);
+  // };
 
   const isSelected = (name) => props.selected.indexOf(name) !== -1;
 
