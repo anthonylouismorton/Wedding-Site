@@ -356,7 +356,7 @@ EnhancedTableToolbar.propTypes = {
                           }}
                         />
                       </TableCell>
-                      <TableCell align="Left">
+                      <TableCell align="left">
                         <img id="thumbnail" src={row.photoUrl} alt ={row.photoUrl}/>
                       </TableCell>
                       <TableCell align="center">{row.category}</TableCell>

@@ -7,33 +7,34 @@ import {
 	Typography,
   Checkbox,
   FormGroup,
-  FormControlLabel
+  FormControlLabel,
+  FormLabel
 } from '@mui/material';
 import axios from 'axios';
-import {useState} from 'react'
+import { useState } from 'react';
+import '../styling/index.css'
 
 function AddGuest(props){ 
   const [coupleChecked, setCoupleChecked] = useState(false);
   const [pluseOneChecked, setplusOneCheck] = useState(false);
-
+  console.log(coupleChecked)
   const handleAddGuest = () => {
-    console.log('in the handler')
-    props.setShowAddGuest(!props.showAddGuest)
+    props.setShowAddGuest(!props.showAddGuest);
   }
 
   const getRSVP = (e) => {
-    rsvpCodeGenerator()
-  }
+    rsvpCodeGenerator();
+  };
 
   const coupleCheck = (e) => {
-    setCoupleChecked(e.target.checked)
-    props.newGuest.couple = !props.coupleChecked
-  }
+    setCoupleChecked(e.target.checked);
+    props.newGuest.couple = !coupleChecked;
+  };
 
   const plusOneCheck = (e) => {
-    setplusOneCheck(e.target.checked)
-    props.newGuest.plusOne = !props.pluseOneChecked
-  }
+    setplusOneCheck(e.target.checked);
+    props.newGuest.plusOne = !pluseOneChecked;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ function AddGuest(props){
 
 		props.setNewGuest({
 			...props.defaultGuest,
-		})
+		});
     document.getElementById('create-invitee-form').reset();
     props.getGuests();
     
@@ -66,7 +67,7 @@ function AddGuest(props){
       })
     }
     else{
-      rsvpCodeGenerator()
+      rsvpCodeGenerator();
     }
     return result;
   }
@@ -88,17 +89,17 @@ function AddGuest(props){
               </Grid>
               <Grid item>
               <FormGroup className={props.classes.formGroup}>
-              <FormControlLabel control={<Checkbox/>} label="Couple" checked={coupleChecked} onChange={coupleCheck}/>
-              <FormControlLabel control={<Checkbox/>} label="+1" checked={pluseOneChecked} onChange={plusOneCheck} />
-            </FormGroup>
+                <FormControlLabel control={<Checkbox/>} label="Couple" checked={coupleChecked} onChange={coupleCheck}/>
+
+                <FormControlLabel control={<Checkbox/>} label="+1" checked={pluseOneChecked} onChange={plusOneCheck} />
+              </FormGroup>
               </Grid>
             </Grid>
             {coupleChecked && (
-            <Grid className={props.classes.description}>
+            <Grid className={props.classes.grid}>
               <Grid item>
                 <TextField
                   name='significantOther'
-                  // value={formValues.incidentOffenseDescription}
                   id='outlined-multiline-static'
                   label='SO name'
                   onChange={props.setSoName}
@@ -107,7 +108,7 @@ function AddGuest(props){
             </Grid>
             )}
             {pluseOneChecked &&(
-            <Grid className={props.classes.description}>
+            <Grid className={props.classes.grid}>
               <Grid item>
                 <TextField
                   name='plusOneName'
@@ -119,7 +120,7 @@ function AddGuest(props){
               </Grid>
             </Grid>
             )}
-            <Grid className={props.classes.description}>
+            <Grid className={props.classes.grid}>
               <Grid item>
                 <TextField
                   name='email'
@@ -129,24 +130,16 @@ function AddGuest(props){
                 />
               </Grid>
             </Grid>
-            <Grid className={props.classes.description}>
-              <Grid item>
-                <TextField
-                  name='rsvpCode'
-                  value={props.newGuest.rsvpCode}
-                  id='outlined-multiline-static'
-                  label='RSVP Code'
-                  // onChange={handleChange}
-                />
-              <Button onClick={getRSVP} color='primary' variant='contained'>
-                Generate
-              </Button>
-              </Grid>
-            </Grid>
             <Grid item className={props.classes.button}>
+              {!props.newGuest.rsvpCode ?
+              <Button onClick={getRSVP} color='primary' variant='contained'>
+                RSVP Code
+              </Button>
+              :
               <Button type='submit' color='primary' variant='contained'>
                 Submit
               </Button>
+              }
               <Button type='button' color='primary' variant='contained' onClick={handleAddGuest}>
                 Hide
               </Button>

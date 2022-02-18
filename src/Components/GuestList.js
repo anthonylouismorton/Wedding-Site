@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     width: '75%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '50px'
+    marginTop: '5%'
   }
 });
 
