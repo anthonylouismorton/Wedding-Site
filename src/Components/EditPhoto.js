@@ -142,16 +142,16 @@ function EditPhoto(props){
                    />
                  </Grid>
                </Grid>
-                 <Grid item className={props.classes.button}>
+                 <Grid item className={props.classes.addButton}>
                    <Button type='button' color='primary' variant='contained' onClick={addTags}>
                      Add
                    </Button>
                  </Grid>
-               <Typography>
+               <Typography className={props.classes.subHeaderTypo}>
                 Tags
                </Typography>
-               <Grid item xs={12} md={6}>
-                  <List>
+               <Grid item>
+                  <List xs={12} md={6}>
                     {props.selectedPhoto.tags.map((tag) => {
                       return(
                         <ListItem

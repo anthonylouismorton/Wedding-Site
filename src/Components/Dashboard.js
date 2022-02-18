@@ -52,6 +52,11 @@ const useStyles = makeStyles({
       justifyContent: 'space-between !important',
       width: '221.6px'
 	},
+  addButton: {
+    marginTop: '10px !important',
+    display: 'flex',
+    justifyContent: 'center !important',
+  },
   div:{
     display: 'flex',
     flexDirection: 'row',
@@ -59,6 +64,11 @@ const useStyles = makeStyles({
   },
   headerTypo:{
     fontSize: '1.5rem !important',
+    fontWeight: 'bold !important'
+  },
+  subHeaderTypo:{
+    marginTop: '30px !important',
+    fontSize: '1.25rem !important',
     fontWeight: 'bold !important'
   },
   formGroup: {
