@@ -83,6 +83,7 @@ function EditGuest(props){
       open={props.open}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      className={props.classes.modal}
     >
       <Box className={props.classes.editGuestContainer}>
          <Paper className={props.classes.paperContainer}>

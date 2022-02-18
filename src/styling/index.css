@@ -11,3 +11,19 @@ code {
 .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
   margin-top: 0px !important;
 }
+
+span.MuiTypography-root.MuiTypography-body1.MuiListItemText-primary.css-10hburv-MuiTypography-root {
+  margin-top: 0px !important;
+}
+
+span.MuiTypography-root.MuiTypography-body1.MuiListItemText-primary.css-10hburv-MuiTypography-root {
+  padding-left: 15px;
+  padding-bottom: 4px
+}
+
+.MuiTablePagination-selectLabel {
+  margin: 0;
+}
+p.MuiTablePagination-displayedRows.css-levciy-MuiTablePagination-displayedRows {
+  margin: 0;
+}

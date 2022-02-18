@@ -1,9 +1,10 @@
 import {Button, Modal, Box, Typography, Paper, Grid, Checkbox, TextField, FormControlLabel, FormGroup, List, ListItem, IconButton, ListItemAvatar, ListItemText} from '@mui/material'
 import{
-  Delete,
+  Clear
 } from '@material-ui/icons'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
+import '../styling/index.css'
 
 function EditPhoto(props){
   
@@ -46,10 +47,10 @@ function EditPhoto(props){
     setInputValue(tags)
   }
 
-  const addTags = (e) => {
+  const addTags = () => {
     props.setSelectedPhoto({
     ...props.selectedPhoto,
-    tags: [...props.selectedPhoto.tags, ...inputValue.split(' ')]
+    tags: [...props.selectedPhoto.tags, inputValue]
     })
     setInputValue('')
 
@@ -107,7 +108,7 @@ function EditPhoto(props){
       open={props.photoOpen}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-        <Box className={props.classes.editGuestContainer}>
+        <Box className={props.classes.editPhotoContainer}>
          <Paper className={props.classes.paperContainer}>
            <Typography className={props.classes.headerTypo}>Edit Photo</Typography>
            <Grid className={props.classes.form}>
@@ -125,9 +126,9 @@ function EditPhoto(props){
                </Grid>
                <Grid>
                 <Grid item>
-                  <FormGroup className={props.classes.formGroup}>
+                  <FormGroup className={props.classes.editPhotoFormGroup}>
                     <FormControlLabel control={<Checkbox/>} label="Wedding" checked={weddingChecked} onChange={handleWeddingCheck}/>
-                    <FormControlLabel control={<Checkbox/>} label="Engagement" checked={engagementChecked} onChange={handleEngageCheck} />
+                    <FormControlLabel control={<Checkbox/>} label="Engagement" checked={engagementChecked} onChange={handleEngageCheck} className={props.classes.formControlLabel} />
                   </FormGroup>
                  </Grid>
                </Grid>
@@ -147,37 +148,39 @@ function EditPhoto(props){
                      Add
                    </Button>
                  </Grid>
+                 <Grid item className={props.classes.button}>
+                    <Button type='submit' color='primary' variant='contained'>
+                      Submit
+                    </Button>
+                    <Button onClick={handleCancel} type='button' color='primary' variant='contained'>
+                      Cancel
+                    </Button>
+                 </Grid>
                <Typography className={props.classes.subHeaderTypo}>
                 Tags
                </Typography>
                <Grid item>
-                  <List xs={12} md={6}>
+                  <List className={props.classes.list}>
                     {props.selectedPhoto.tags.map((tag) => {
                       return(
                         <ListItem
+                        className={props.classes.listItem}
                         key={tag}
-                        secondaryAction={
-                          <IconButton onClick={()=> handleDelete(tag)} edge="end" aria-label="delete">
-                            <Delete />
-                          </IconButton>
-                        }
+                        // secondaryAction={
+                        //   <IconButton onClick={()=> handleDelete(tag)} edge="end" aria-label="delete">
+                        //     <Clear />
+                        //   </IconButton>
+                        // }
                         >
-                        <ListItemAvatar>
-                        </ListItemAvatar>
+                        <IconButton onClick={()=> handleDelete(tag)} edge="end" aria-label="delete">
+                          <Clear />
+                        </IconButton>
                         <ListItemText
                           primary={tag}
                           />
                       </ListItem>
                     )})}
                   </List>
-               </Grid>
-               <Grid item className={props.classes.button}>
-                 <Button type='submit' color='primary' variant='contained'>
-                   Submit
-                 </Button>
-                 <Button onClick={handleCancel} type='button' color='primary' variant='contained'>
-                   Cancel
-                 </Button>
                </Grid>
               </form>
             </Grid>

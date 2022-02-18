@@ -77,7 +77,7 @@ function AddGuest(props){
         <Typography className={props.classes.headerTypo}>Add Guest</Typography>
         <Grid className={props.classes.form}>
           <form id="create-invitee-form" onSubmit={handleSubmit}>
-            <Grid>
+            <Grid className={props.classes.grid}>
               <Grid item>
                 <TextField
                   name='name'

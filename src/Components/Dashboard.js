@@ -8,6 +8,7 @@ import EditPhoto from './EditPhoto';
 import DashboardCarousel from './DashboardCarousel';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
+import '../styling/index.css'
 
 const useStyles = makeStyles({
 	addPhotosContainer: {
@@ -32,15 +33,20 @@ const useStyles = makeStyles({
     marginTop: '4%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: '4%'
+	},
+  editPhotoContainer: {
+    width: '600px',
+    textAlign: 'center',
+    marginTop: '4%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
 	},
 	paperContainer: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '15px'
+    padding: '15px',
 	},
 	form: {
-		marginTop: '20px',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -50,10 +56,13 @@ const useStyles = makeStyles({
       marginTop: '20px !important',
       display: 'flex',
       justifyContent: 'space-between !important',
-      width: '221.6px'
+      width: '221.6px',
+      marginLeft: 'auto !important',
+      marginRight: 'auto !important'
 	},
   addButton: {
     marginTop: '10px !important',
+    paddingBottom: '5px !important',
     display: 'flex',
     justifyContent: 'center !important',
   },
@@ -67,22 +76,52 @@ const useStyles = makeStyles({
     fontWeight: 'bold !important'
   },
   subHeaderTypo:{
-    marginTop: '30px !important',
+    marginTop: '15px !important',
     fontSize: '1.25rem !important',
     fontWeight: 'bold !important'
   },
   formGroup: {
     marginTop: '5px !important',
     flexDirection: 'row !important',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     height: '20px'
+  },
+  editPhotoFormGroup: {
+    marginTop: '5px !important',
+    flexDirection: 'row !important',
+    justifyContent: 'space-evenly',
+    textAlign: 'center',
+    width: '229px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    height: '20px'
+  },
+  formControlLabel: {
+    margin: '0px !important'
   },
   grid: {
     marginTop: '30px !important',
   },
   inputBoxes: {
     width: '225px',
+  },
+  list: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '600px !important',
+    justifyContent: 'flex-start',
+    paddingLeft: '15px !important',
+    paddingRight: '15px !important',
+    flexWrap: 'wrap !important'
+  },
+  listItem: {
+    width: '175px !important',
+    padding: '0px !important',
+    paddingLeft: '8px !important',
+    display: 'flex !important',
+    flexDirection: 'row !important',
+    alignItems: 'center !important',
   }
 });
 

@@ -32,6 +32,9 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     backgroundColor: 'black !important'
   },
+  formControlLabel: {
+    margin: '0px !important'
+  },
   textField: {
     marginTop: '15px !important',
     fontSize: '1rem !important'
@@ -39,7 +42,7 @@ const useStyles = makeStyles({
   formGroup: {
     marginTop: '15px !important',
     flexDirection: 'row !important',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   }
 });
 function RSVP(props){
@@ -224,7 +227,8 @@ function RSVP(props){
                 <Grid item>
                   <FormGroup className={classes.formGroup}>
                     <FormControlLabel control={<Checkbox/>} label="Attending" checked={attendingChecked} onChange={handleAttending}/>
-                    <FormControlLabel control={<Checkbox/>} label="Not Attending" checked={notAttendingChecked} onChange={handleNotAttending}/>
+                    <FormControlLabel control={<Checkbox/>} label="Not Attending" checked={notAttendingChecked} onChange={handleNotAttending}
+                    className={classes.formControlLabel} />
                   </FormGroup>
                 </Grid>
                 <Grid item>
