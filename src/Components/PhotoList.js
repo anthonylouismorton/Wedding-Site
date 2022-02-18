@@ -39,7 +39,7 @@ const classes = useStyles();
 const [order, setOrder] = useState('asc');
 const [orderBy, setOrderBy] = useState('name');
 const [page, setPage] = useState(0);
-// const [dense, setDense] = useState(false);
+const [dense] = useState(false);
 const [rowsPerPage, setRowsPerPage] = useState(5);
     
 const handleOpen = async () => { 
