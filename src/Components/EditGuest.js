@@ -1,20 +1,5 @@
 import {Button, Modal, Box, Typography, Paper, Grid, Checkbox, TextField, FormControlLabel, FormGroup} from '@mui/material'
 import axios from 'axios'
-// import { useState } from 'react';
-// import { useState } from 'react';
-
-// const style = {
-//   position: 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: 400,
-//   bgcolor: 'background.paper',
-//   border: '2px solid #000',
-//   boxShadow: 24,
-//   p: 4,
-// };
-
 
 function EditGuest(props){
   const handleSubmit = async (e) => {
@@ -96,34 +81,33 @@ function EditGuest(props){
     <>
     <Modal
       open={props.open}
-      //onClose={props.handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box>
-         <Paper>
-           <Typography>Edit Guest</Typography>
-           <Grid>
+      <Box className={props.classes.editGuestContainer}>
+         <Paper className={props.classes.paperContainer}>
+           <Typography className={props.classes.headerTypo}>Edit Guest</Typography>
+           <Grid className={props.classes.form}>
              <form id="create-invitee-form" onSubmit={handleSubmit}>
               <Grid>
-                <Grid item>
+                <Grid item className={props.classes.grid}>
                    <TextField
                      name='name'
                      value={`${props.selectedInvitee.firstName} ${props.selectedInvitee.lastName} `}
                      id='outlined-multiline-static'
-                     label={props.selectedInvitee.name}
+                     label='Name'
                      onChange={setName}
                    />
                 </Grid>
                   <Grid item>
-                    <FormGroup>
+                    <FormGroup className={props.classes.formGroup}>
                       <FormControlLabel control={<Checkbox/>} label="Couple" checked={props.editCoupleChecked} onChange={coupleCheck}/>
                       <FormControlLabel control={<Checkbox/>} label="+1" checked={props.editPlusOneChecked} onChange={plusOneCheck} />
                   </FormGroup>
                   </Grid>
               </Grid>
               <Grid>
-                <Grid item>
+                <Grid item className={props.classes.grid}>
                   <TextField
                     name='email'
                     value={`${props.selectedInvitee.email}`}
@@ -135,7 +119,7 @@ function EditGuest(props){
               </Grid>
                {props.editCoupleChecked && (
                <Grid>
-                 <Grid item>
+                 <Grid item className={props.classes.grid}>
                    <TextField
                      name='significantOther'
                      defaultValue={`${props.selectedInvitee.sOfirstName} ${props.selectedInvitee.sOlastName} `}
@@ -148,7 +132,7 @@ function EditGuest(props){
                )}
                {props.editPlusOneChecked &&(
                <Grid>
-                 <Grid item>
+                 <Grid item className={props.classes.grid}>
                    <TextField
                      name='plusOneName'
                      defaultValue={`${props.selectedInvitee.plusOneFirstName} ${props.selectedInvitee.plusOneLastName} `}
@@ -164,11 +148,11 @@ function EditGuest(props){
                  <Typography>RSVP Code: {props.selectedInvitee.rsvpCode}</Typography>
                  </Grid>
                </Grid>
-               <Grid item>
-                 <Button type='submit' color='success' variant='contained'>
+               <Grid item className={props.classes.button}>
+                 <Button type='submit' color='primary' variant='contained'>
                    Submit
                  </Button>
-                 <Button onClick={handleCancel} type='button' color='warning' variant='contained'>
+                 <Button onClick={handleCancel} type='button' color='primary' variant='contained'>
                    Cancel
                  </Button>
                </Grid>

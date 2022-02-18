@@ -26,6 +26,14 @@ const useStyles = makeStyles({
     marginRight: 'auto',
     marginBottom: '4%'
 	},
+  editGuestContainer: {
+    width: '450px',
+    textAlign: 'center',
+    marginTop: '4%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '4%'
+	},
 	paperContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -33,14 +41,10 @@ const useStyles = makeStyles({
 	},
 	form: {
 		marginTop: '20px',
-		// marginBottom: '10px',
-		// width: '80%',
-		// height: '60%',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
     flexDirection: 'column'
-    // flexWrap: 'wrap'
 	},
 	button: {
       marginTop: '20px !important',
@@ -226,8 +230,8 @@ function Dashboard(){
         {showCarousel &&
         <DashboardCarousel photos={photos}/>
         }
-        <EditGuest handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
-        <EditPhoto photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} handleClose={handleEditClose} selected={selected} setSelected={setSelected} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
+        <EditGuest classes={classes} handleClose={handleClose} open={open} editCoupleChecked={editCoupleChecked} editSetCoupleChecked={editSetCoupleChecked} editPlusOneChecked={editPlusOneChecked} editSetPlusOneCheck={editSetPlusOneCheck} selectedInvitee={selectedInvitee} setSelectedInvitee={setSelectedInvitee} guestSelected={guestSelected} setGuestSelected={setGuestSelected}/>
+        <EditPhoto classes={classes} photoOpen={photoOpen} selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto} handleClose={handleEditClose} selected={selected} setSelected={setSelected} defaultPhoto={defaultPhoto} getPhotos={getPhotos}/>
       </>
     )
   }

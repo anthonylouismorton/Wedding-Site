@@ -3,8 +3,6 @@ import { alpha } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
 import {useState} from 'react';
 import {
-  Switch,
-  FormControlLabel,
   Tooltip,
   IconButton,
   Checkbox,

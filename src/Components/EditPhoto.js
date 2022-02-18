@@ -103,20 +103,17 @@ function EditPhoto(props){
   },[props.selectedPhoto]);
 
   return(
-    <>
     <Modal
       open={props.photoOpen}
       aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      
-      <Box>
-         <Paper>
-           <Typography>Edit Photo</Typography>
-           <Grid>
+      aria-describedby="modal-modal-description">
+        <Box className={props.classes.editGuestContainer}>
+         <Paper className={props.classes.paperContainer}>
+           <Typography className={props.classes.headerTypo}>Edit Photo</Typography>
+           <Grid className={props.classes.form}>
              <form id="edit-photo-form" onSubmit={handleSubmit}>
                <Grid>
-                 <Grid item>
+                 <Grid item className={props.classes.grid}>
                    <TextField
                      name='caption'
                      value={props.selectedPhoto.caption}
@@ -126,70 +123,67 @@ function EditPhoto(props){
                    />
                  </Grid>
                </Grid>
-               <Typography>Tags</Typography>
                <Grid>
-                 <Grid item>
+                <Grid item>
+                  <FormGroup className={props.classes.formGroup}>
+                    <FormControlLabel control={<Checkbox/>} label="Wedding" checked={weddingChecked} onChange={handleWeddingCheck}/>
+                    <FormControlLabel control={<Checkbox/>} label="Engagement" checked={engagementChecked} onChange={handleEngageCheck} />
+                  </FormGroup>
+                 </Grid>
+               </Grid>
+               <Grid>
+                 <Grid item className={props.classes.grid}>
                    <TextField
                     name='tags'
                     id='outlined-multiline-static'
-                    label='Add Tags (seperate by spaces)'
+                    label='Tags'
                     value={inputValue}
                     onChange={handleTags}
                    />
-                   <Button type='button' color='success' variant='contained' onClick={addTags}>
+                 </Grid>
+               </Grid>
+                 <Grid item className={props.classes.button}>
+                   <Button type='button' color='primary' variant='contained' onClick={addTags}>
                      Add
                    </Button>
                  </Grid>
-               </Grid>
-               <Grid item>
-                 <FormGroup>
-                  <FormControlLabel control={<Checkbox/>} label="Wedding" checked={weddingChecked} onChange={handleWeddingCheck}/>
-                  <FormControlLabel control={<Checkbox/>} label="Engagement" checked={engagementChecked} onChange={handleEngageCheck} />
-                </FormGroup>
-                 </Grid>
-               <Grid item>
-                 <Button type='submit' color='success' variant='contained'>
-                   Submit
-                 </Button>
-                 <Button onClick={handleCancel} type='button' color='warning' variant='contained'>
-                   Cancel
-                 </Button>
-               </Grid>
-             </form>
-           </Grid>
-         {/* <TagList/> */}
-            <Grid item xs={12} md={6}>
-              <Typography 
-              sx={{ mt: 4, mb: 2 }} variant="h6" component="div"
-              >
-                Tags (must submit to save changes)
-              </Typography>
-                <List>
-                  {/* {props.selectedPhoto.tags > 0 && */}
+               <Typography>
+                Tags
+               </Typography>
+               <Grid item xs={12} md={6}>
+                  <List>
                     {props.selectedPhoto.tags.map((tag) => {
-                    return(
-                      <ListItem
+                      return(
+                        <ListItem
                         key={tag}
                         secondaryAction={
                           <IconButton onClick={()=> handleDelete(tag)} edge="end" aria-label="delete">
                             <Delete />
                           </IconButton>
                         }
-                      >
+                        >
                         <ListItemAvatar>
                         </ListItemAvatar>
                         <ListItemText
                           primary={tag}
-                        />
+                          />
                       </ListItem>
                     )})}
-
-                </List>
+                  </List>
+               </Grid>
+               <Grid item className={props.classes.button}>
+                 <Button type='submit' color='primary' variant='contained'>
+                   Submit
+                 </Button>
+                 <Button onClick={handleCancel} type='button' color='primary' variant='contained'>
+                   Cancel
+                 </Button>
+               </Grid>
+              </form>
             </Grid>
          </Paper>
-       </Box>
+      </Box>
     </Modal>
-    </>
   )
 }
 

@@ -7,8 +7,7 @@ import {
 	Typography,
   Checkbox,
   FormGroup,
-  FormControlLabel,
-  FormLabel
+  FormControlLabel
 } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
@@ -17,7 +16,7 @@ import '../styling/index.css'
 function AddGuest(props){ 
   const [coupleChecked, setCoupleChecked] = useState(false);
   const [pluseOneChecked, setplusOneCheck] = useState(false);
-  console.log(coupleChecked)
+
   const handleAddGuest = () => {
     props.setShowAddGuest(!props.showAddGuest);
   }
@@ -71,14 +70,14 @@ function AddGuest(props){
     }
     return result;
   }
-  console.log(props.newGuest)
+ 
   return(
     <Box className={props.classes.addGuestContainer}>
       <Paper className={props.classes.paperContainer}>
         <Typography className={props.classes.headerTypo}>Add Guest</Typography>
         <Grid className={props.classes.form}>
           <form id="create-invitee-form" onSubmit={handleSubmit}>
-            <Grid className={props.classes.description}>
+            <Grid>
               <Grid item>
                 <TextField
                   name='name'
