@@ -8,7 +8,7 @@ import WeddingPhotos from './Components/WeddingPhotos';
 import RSVP from './Components/RSVP'
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import {useState} from 'react'
-import mainBackGroundImage from './images/mainBackgroundImage.png'
+// import mainBackGroundImage from './images/mainBackgroundImage.png'
 
 function App(){
   const [background, setBackground] = useState('')

@@ -1,0 +1,28 @@
+/* #cSContainer{
+  width: 100%;
+
+}
+
+#cSEngagement{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+} */
+
+.carousel{
+  position: fixed !important;
+  height: 100vh;
+}
+.carouselItem{
+  position: fixed !important;
+  height: 100vh;
+}
+.carouselCaption{
+  margin-bottom: 3%;
+  position: absolute;
+  font-size: 1.5rem !important;
+}
+.carousel-indicators{
+  position: fixed !important;
+}

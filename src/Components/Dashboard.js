@@ -14,15 +14,17 @@ const useStyles = makeStyles({
     width: '400px',
     textAlign: 'center',
     marginTop: '4%',
-    margin: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     height: '400px',
 	},
   addGuestContainer: {
     width: '450px',
     textAlign: 'center',
     marginTop: '4%',
-    margin: 'auto',
-    height: '400px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '4%'
 	},
 	paperContainer: {
     display: 'flex',
@@ -44,7 +46,7 @@ const useStyles = makeStyles({
       marginTop: '20px !important',
       display: 'flex',
       justifyContent: 'space-between !important',
-      width: '200px'
+      width: '221.6px'
 	},
   div:{
     display: 'flex',
@@ -56,16 +58,17 @@ const useStyles = makeStyles({
     fontWeight: 'bold !important'
   },
   formGroup: {
-    marginTop: '10px !important',
+    marginTop: '5px !important',
     flexDirection: 'row !important',
     justifyContent: 'center',
+    alignItems: 'center',
+    height: '20px'
   },
   grid: {
     marginTop: '30px !important',
-    // fontSize: '1rem !important'
   },
   inputBoxes: {
-    width: '200px',
+    width: '225px',
   }
 });
 

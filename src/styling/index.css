@@ -8,3 +8,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+  margin-top: 0px !important;
+}
