@@ -6,8 +6,7 @@ import '../styling/rsvp.css'
 
 const useStyles = makeStyles({
   boxContainer: {
-    minWidth: '25%',
-    maxWidth: '40%',
+    width: '400px',
     textAlign: 'center',
     position: 'fixed',
     top: '50%',
@@ -231,7 +230,7 @@ function RSVP(props){
                     className={classes.formControlLabel} />
                   </FormGroup>
                 </Grid>
-                <Grid item>
+                <Grid item >
                   <Button className={classes.button} type='submit' variant='contained'>
                     RSVP
                   </Button>
@@ -239,7 +238,6 @@ function RSVP(props){
               </Grid>
               )}
             </form>
-
           )}
         </Paper>
       </Box>
