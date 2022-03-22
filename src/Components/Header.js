@@ -51,7 +51,7 @@ function Header(props) {
                 <Nav.Link href="Venue">Venue</Nav.Link>
               </LinkContainer>
             </Nav.Item> */}
-            <Nav.Link href="honeyFund">Honey Fund</Nav.Link>
+            {/* <Nav.Link href="honeyFund">Honey Fund</Nav.Link> */}
             <Nav.Item>
               <LinkContainer to="WeddingPhotos">
                 <Nav.Link href="WeddingPhotos">Wedding Photos</Nav.Link>

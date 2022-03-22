@@ -6,8 +6,8 @@
   /* flex-wrap: wrap; */
   /* align-items: center; */
   justify-content: center;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid gray;
-  background-color: #FFAAAA
+  background-color: white;
 }
